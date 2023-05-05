@@ -63,10 +63,10 @@ def run_website():
                y=alt.Y('last_valuation_c', title='Last Valuation'),
                color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
          )
-            container.altair_chart(filtered_scatter_plot, use_container_width=True)
+        container.altair_chart(filtered_scatter_plot, use_container_width=True)
 
-       # Show the initial scatter plot
-       container.altair_chart(scatter_plot, use_container_width=True)
+        # Show the initial scatter plot
+        container.altair_chart(scatter_plot, use_container_width=True)
 
 
 #         # Create a list of categories for the dropdown menu
