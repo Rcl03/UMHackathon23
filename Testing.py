@@ -44,9 +44,9 @@ def run_website():
 
 
         scatter_plot = alt.Chart(data).mark_circle().encode(
-        x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
-        y=alt.Y('last_valuation_c', title='Last Valuation'),
-        color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
+          x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
+          y=alt.Y('last_valuation_c', title='Last Valuation'),
+          color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
          )
 
         # Create button to filter data
