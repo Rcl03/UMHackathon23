@@ -41,29 +41,33 @@ def run_website():
 
         # Display the plot
         st.plotly_chart(fig)
-        
-        x_axis = st.sidebar.selectbox("Select X-axis parameter", ["revenue_growth(%)"])
-        y_axis = st.sidebar.selectbox("Select Y-axis parameter", ["num_funding_rounds", "last_valuation_c"])
 
-        # Filter data based on user selection
-        data_filtered = data[[x_axis, y_axis]]
 
-        # Add scatter plot
-        fig = px.scatter(data_filtered, x=x_axis, y=y_axis)
+        scatter_plot = alt.Chart(data).mark_circle().encode(
+        x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
+        y=alt.Y('last_valuation_c', title='Last Valuation'),
+        color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
+         )
 
-        # Add buttons for filtering data
-        if st.button("Filter by number of funding rounds"):
-            data_filtered = data_filtered[data_filtered["num_funding_rounds"] > 5]
-            fig = px.scatter(data_filtered, x=x_axis, y=y_axis)
+         # Create button to filter data
+         button_clicked = st.button('Filter data')
 
-        if st.button("Filter by revenue growth rate"):
-            data_filtered = data_filtered[data_filtered["revenue_growth(%)"] > 100]
-            fig = px.scatter(data_filtered, x=x_axis, y=y_axis)
+          # Create a container to hold the button and the plot
+          container = st.beta_container()
 
-        # Show plot
-        st.plotly_chart(fig)
+          # If button is clicked, filter data and show the filtered scatter plot
+          if button_clicked:
+               data_filtered = data[data["num_funding_rounds"] > 5]
+               filtered_scatter_plot = alt.Chart(data_filtered).mark_circle().encode(
+               x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
+               y=alt.Y('last_valuation_c', title='Last Valuation'),
+               color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
+         )
+            container.altair_chart(filtered_scatter_plot, use_container_width=True)
 
-       
+    # Show the initial scatter plot
+    container.altair_chart(scatter_plot, use_container_width=True)
+
 
 #         # Create a list of categories for the dropdown menu
 #         categories = ['All'] + list(data['category_0'].unique())
