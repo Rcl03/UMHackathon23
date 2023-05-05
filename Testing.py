@@ -41,43 +41,65 @@ def run_website():
 
         # Display the plot
         st.plotly_chart(fig)
+        
+        x_axis = st.sidebar.selectbox("Select X-axis parameter", ["revenue_growth(%)"])
+        y_axis = st.sidebar.selectbox("Select Y-axis parameter", ["num_funding_rounds", "last_valuation_c"])
+
+        # Filter data based on user selection
+        data_filtered = data[[x_axis, y_axis]]
+
+        # Add scatter plot
+        fig = px.scatter(data_filtered, x=x_axis, y=y_axis)
+
+        # Add buttons for filtering data
+        if st.button("Filter by number of funding rounds"):
+            data_filtered = data_filtered[data_filtered["num_funding_rounds"] > 5]
+            fig = px.scatter(data_filtered, x=x_axis, y=y_axis)
+
+        if st.button("Filter by revenue growth rate"):
+            data_filtered = data_filtered[data_filtered["revenue_growth(%)"] > 100]
+            fig = px.scatter(data_filtered, x=x_axis, y=y_axis)
+
+        # Show plot
+        st.plotly_chart(fig)
+
        
 
-        # Create a list of categories for the dropdown menu
-        categories = ['All'] + list(data['category_0'].unique())
+#         # Create a list of categories for the dropdown menu
+#         categories = ['All'] + list(data['category_0'].unique())
 
-        # Define function to filter the data by category
-        def filter_data(category):
-            if category == 'All':
-                return data
-            else:
-                return data[data['category_0'] == category]
+#         # Define function to filter the data by category
+#         def filter_data(category):
+#             if category == 'All':
+#                 return data
+#             else:
+#                 return data[data['category_0'] == category]
 
-        # Define function to create the chart
-        def create_chart(df):
-            chart = alt.Chart(df).mark_bar().encode(
-                x='category_0',
-                y='revenue_growth(%)',
-                tooltip=['category_0', 'revenue_growth(%)']
-            ).properties(
-                width=700,
-                height=400
-            )
-            return chart
+#         # Define function to create the chart
+#         def create_chart(df):
+#             chart = alt.Chart(df).mark_bar().encode(
+#                 x='category_0',
+#                 y='revenue_growth(%)',
+#                 tooltip=['category_0', 'revenue_growth(%)']
+#             ).properties(
+#                 width=700,
+#                 height=400
+#             )
+#             return chart
 
-        # Create Streamlit app
-        st.title('Revenue Growth by Company Category')
-        st.write('Select a category from the dropdown menu to filter the data.')
+#         # Create Streamlit app
+#         st.title('Revenue Growth by Company Category')
+#         st.write('Select a category from the dropdown menu to filter the data.')
 
-        # Add dropdown menu to select category
-        category = st.selectbox('Select a category:', categories)
+#         # Add dropdown menu to select category
+#         category = st.selectbox('Select a category:', categories)
 
-        # Filter data by selected category
-        filtered_data = filter_data(category)
+#         # Filter data by selected category
+#         filtered_data = filter_data(category)
 
-        # Create chart with filtered data
-        chart = create_chart(filtered_data)
-        st.altair_chart(chart, use_container_width=True)
+#         # Create chart with filtered data
+#         chart = create_chart(filtered_data)
+#         st.altair_chart(chart, use_container_width=True)
 
     if(selected == 'Categorical ranking'):
 
