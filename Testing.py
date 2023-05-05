@@ -49,14 +49,14 @@ def run_website():
         color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
          )
 
-         # Create button to filter data
-         button_clicked = st.button('Filter data')
+        # Create button to filter data
+        button_clicked = st.button('Filter data')
 
-          # Create a container to hold the button and the plot
-          container = st.beta_container()
+        # Create a container to hold the button and the plot
+        container = st.beta_container()
 
-          # If button is clicked, filter data and show the filtered scatter plot
-          if button_clicked:
+        # If button is clicked, filter data and show the filtered scatter plot
+        if button_clicked:
                data_filtered = data[data["num_funding_rounds"] > 5]
                filtered_scatter_plot = alt.Chart(data_filtered).mark_circle().encode(
                x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
@@ -65,8 +65,8 @@ def run_website():
          )
             container.altair_chart(filtered_scatter_plot, use_container_width=True)
 
-    # Show the initial scatter plot
-    container.altair_chart(scatter_plot, use_container_width=True)
+       # Show the initial scatter plot
+       container.altair_chart(scatter_plot, use_container_width=True)
 
 
 #         # Create a list of categories for the dropdown menu
