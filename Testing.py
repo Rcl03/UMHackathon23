@@ -44,31 +44,30 @@ def run_website():
         st.plotly_chart(fig)
 
 
-        filtered_scatter_plot = alt.Chart().mark_circle().encode(
-            x="revenue_growth(%)",
-            y=alt.Y("num_funding_rounds", scale=alt.Scale(type="log")),
-            size=alt.Size("last_valuation_c", scale=alt.Scale(type="log"), legend=None),
-            tooltip=["name_c", "num_funding_rounds", "last_valuation_c"],
-        ).interactive()
-
-        if revenue_growth_slider:
-            data_filtered = data_filtered[data_filtered["revenue_growth(%)"] > revenue_growth_slider]
-
-        if num_funding_rounds_slider:
-            data_filtered = data_filtered[data_filtered["num_funding_rounds"] > num_funding_rounds_slider]
-
-        if last_valuation_slider:
-            data_filtered = data_filtered[data_filtered["last_valuation_c"] > last_valuation_slider]
-
-        filtered_scatter_plot = filtered_scatter_plot.transform_filter(
-            alt.FieldRangePredicate(field="last_valuation_c", range=[0, last_valuation_slider])
-        ).transform_filter(
-            alt.FieldRangePredicate(field="num_funding_rounds", range=[0, num_funding_rounds_slider])
-        ).transform_filter(
-            alt.FieldRangePredicate(field="revenue_growth(%)", range=[0, revenue_growth_slider])
+        scatter_plot = alt.Chart(data).mark_circle().encode(
+            x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
+            y=alt.Y('last_valuation_c', title='Last Valuation'),
+            color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
         )
 
-        container.altair_chart(filtered_scatter_plot, use_container_width=True)
+        # Create button to filter data
+        button_clicked = st.button('Filter data')
+
+        # Create a container to hold the button and the plot
+        container = st.beta_container()
+
+        # If button is clicked, filter data and show the filtered scatter plot
+        if button_clicked:
+            data_filtered = data[data["num_funding_rounds"] > 5]
+            filtered_scatter_plot = alt.Chart(data_filtered).mark_circle().encode(
+                x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
+                y=alt.Y('last_valuation_c', title='Last Valuation'),
+                color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
+            )
+            container.altair_chart(filtered_scatter_plot, use_container_width=True)
+
+        # Show the initial scatter plot
+        container.altair_chart(scatter_plot, use_container_width=True)
 
 
 #         # Create a list of categories for the dropdown menu
