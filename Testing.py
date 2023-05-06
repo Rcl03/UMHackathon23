@@ -270,12 +270,47 @@ def run_website():
         col1, col2, col3 = st.columns(3)
 
 
-    if(selected == 'Implement own dataset'):
+    if(selected == 'Company Profile'):
 
-        st.title('Implement your dataset')
-        file = st.file_uploader("Upload Your Dataset")
-        if file:
-            df = pd.read_csv(file,index_col = None)
-            df.to_csv('dataset.csv', index = None)
+        input = st.selectbox(label='Name of company', options=data['name_c'])
+        count = 0
+        for value in data['name_c']:
+            if input == value:
+                row = data.iloc[count]
+                st.write("Incorporated date: ", row[1])
+                st.write("Last valuation: ", row[3])
+                st.write("Amount raised during last funding round: ", row[4])
+                st.write("Date of last fund raise: ", row[6])
+                st.write("Date of financial year end: ", row[7])
+                st.write("Number of founder: ", row[12])
+                st.write("Number of funding round: ", row[13])
+                st.write("Number of shareholder: ", row[14])
+                st.write("Minimum share in %: ", row[15])
+                st.write("Median share in %: ", row[16])
+                st.write("Maximum share in %: ", row[17])
+                st.write("Categories: {}, {}, {}, {}, {}, {}, {}, {}".format(row[18], row[19], row[20], row[21], row[23], row[24], row[25], row[26]))
+                # Sample data
+                y_data = [row[8], row[10], row[11]]  # Y-axis values
+                y_names = ['Total Funding', 'Revenue', 'Ebit']  # Y-axis names
+                # Use y-axis values as x-axis values
+                x_data = y_data
+
+                # Create bar trace for y-variable
+                trace = go.Bar(x=x_data, y=y_data)
+
+                # Create layout
+                layout = go.Layout(
+                    title='"Total Funding","Revenue","EBIT',
+                    xaxis=dict(title='X-Axis'),
+                    yaxis=dict(title='Y-Axis')
+                )
+                
+                fig = go.Figure(data=[trace], layout=layout)
+
+                # Display the figure
+                st.plotly_chart(fig)
+               
+            count = count+1
+
 
 run_website()
