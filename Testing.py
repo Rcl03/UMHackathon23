@@ -74,18 +74,18 @@ def run_website():
                        'Human Resources', 'Real Estate and Property', 'Food and Beverage', 'Others']
 
             # Calculate the average revenue growth rate for each industry category
-            average_revenue_growth = {}
+            average_revenue_growth_industry = {}
 
             for category in industry_categories:
                 category_df = data[data[category] == 1]
-                average_growth = category_df['revenue_growth(%)'].mean()
-                average_revenue_growth[category] = average_growth
-                average_mean_revenues.append((industry_categories, average_mean_revenue))
+                average_growth_industry = category_df['revenue_growth(%)'].mean()
+                average_revenue_growth_industry[category] = average_growth_industry
+                average_mean_revenues_industry.append((industry_categories, average_revenue_growth_industry))
 
 
             # Extract the categories and average revenues for plotting
-            industry_categories = [x[0] for x in average_mean_revenues]
-            mean_revenues = [x[1] for x in average_mean_revenues]
+            industry_categories = [x[0] for x in average_mean_revenues_industry]
+            mean_revenues = [x[1] for x in average_mean_revenues_industry]
                 
             data2 = pd.DataFrame({'industry_categories': industry_categories, 'Mean Revenue': mean_revenues})
 
