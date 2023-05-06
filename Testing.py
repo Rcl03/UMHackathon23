@@ -373,7 +373,7 @@ def run_website():
                 y_data2 = [row[8], row[10], row[11]] 
 
                 # Create bar trace for y-variable
-                trace1 = go.Bar(x=x_data2, y=y_data2,width=0.5)
+                trace2 = go.Bar(x=x_data2, y=y_data2,width=0.5)
 
                 # Create layout
                 layout2 = go.Layout(
