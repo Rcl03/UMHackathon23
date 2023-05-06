@@ -535,7 +535,7 @@ def run_website():
 
 
         # Create a slider to select the year
-            year_ranges = {
+        year_ranges = {
                 "Before 1990": (None, 1989),
                 "1990-1995": (1990, 1995),
                 "1996-2000": (1996, 2000),
@@ -566,7 +566,7 @@ def run_website():
 
             # Display the plot
             st.plotly_chart(fig)
-
+    
 
         scatter_plot = alt.Chart(data).mark_circle().encode(
             x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
