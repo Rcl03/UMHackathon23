@@ -22,6 +22,7 @@ def run_website():
         
         
     if(selected == 'Analytics Dashboard'):
+       
         # Assuming your dataset is stored in a DataFrame called 'df'
         variables = [
             'Information Technology', 'Software', 'Mobile Apps', 'Internet',
@@ -70,6 +71,7 @@ def run_website():
 
         # Display the plot in Streamlit
         st.plotly_chart(fig)
+
 
         
 #         x_column = 'total_funding_c'
