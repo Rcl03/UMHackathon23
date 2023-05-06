@@ -22,6 +22,9 @@ def run_website():
         
         
     if(selected == 'Analytics Dashboard'):
+        
+        # Create a Streamlit app
+        st.title('Total funding vs Total revenue')
        
         # Assuming your dataset is stored in a DataFrame called 'df'
         variables = [
@@ -72,8 +75,7 @@ def run_website():
 #         # Filter the data to exclude null or zero values
 #         filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[y_column].notnull()) & (data[y_column] != 0)]
 
-#         # Create a Streamlit app
-#         st.title('Total funding vs Total revenue')
+
 
 #         # Extract the x and y values from the filtered data
 #         x = filtered_data[x_column]
