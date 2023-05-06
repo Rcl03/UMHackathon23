@@ -7,7 +7,7 @@ import plotly.express as px
 import altair as alt
 import numpy as np
 
-data = pd.read_csv("Final_cleaned.csv")
+data = pd.read_csv("final dataset.csv")
 st.set_page_config(page_title="Venture Capital")
 
 def run_website():
