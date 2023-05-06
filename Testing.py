@@ -20,6 +20,33 @@ def run_website():
         
         
     if(selected == 'Analytics Dashboard'):
+        
+        x_column = 'total_funding_c'
+
+        # Specify the column name for y-axis values
+        y_column = 'revenue_c'
+
+        # Filter the data to exclude null or zero values
+        filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[y_column].notnull()) & (data[y_column] != 0)]
+
+        # Create a Streamlit app
+        st.title('Total funding vs Total revenue')
+
+        # Extract the x and y values from the filtered data
+        x = filtered_data[x_column]
+        y = filtered_data[y_column]
+
+        # Create the line chart
+        line, ax = plt.subplots()
+        ax.plot(x, y)
+
+        # Set the chart title and axis labels
+        ax.set_title('Line Chart')
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+
+        # Display the chart using Streamlit
+        st.pyplot(line)
 
         st.write("To be coded")
 
