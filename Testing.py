@@ -54,7 +54,7 @@ def run_website():
             # Set the layout
             layout = go.Layout(title='Average Revenue Growth Rate by Industry Category',
                                xaxis=dict(title='Industry Category'),
-                               yaxis=dict(title='Average Revenue Growth Rate (%)'),
+                               yaxis=dict(title='Average Revenue Growth'),
                                height=500)
 
             # Create a Figure object
@@ -760,86 +760,250 @@ def run_website():
                             st.write(bottom_10)
 
     if(selected == 'Search'):
+        
+        st.title('Search')
 
-# get unique values from grp_category columns
-        grp_categories = data.filter(regex='grp_category').values.ravel()
-        grp_categories = pd.unique([x for x in grp_categories if str(x) != 'nan'])
+        # Create a radio button for selecting the search method
+        search_method = st.radio('Select Search Method', ('Search by Company', 'Search by Category'))
 
-        # Main category dropdown
-        main_categories = ['Technology', 'Finance', 'Health and Wellness', 'Retail and E-commerce', 'Education', 'Media and Entertainment', 'Travel and Hospitality', 'Marketing and Advertising', 'Human Resources', 'Real Estate and Property', 'Food and Beverage', 'Other']  # replace with your own categories
-        selected_main_category = st.selectbox('Select main category', main_categories)
+        if search_method == 'Search by Company':
+            # Display content for searching by company
+            st.header('Search by Company')
+            # Your code for searching by company goes here
 
-        # Detailed category dropdown
-        if selected_main_category == 'Technology':
-            detailed_categories = ['Information Technology', 'Software', 'Mobile Apps', 'Internet', 'Artificial Intelligence', 'Internet of Things', 'Web Development', 'Cloud', 'Automation', 'Big Data', 'Machine Learning', 'Robotics', 'Blockchain', 'Augmented Reality', 'Virtual Reality', 'Smart Home', 'Clean Energy', 'Sensor', 'Nanotechnology', 'Developer Apis']  # replace with your own categories
-            detailed_categories.append('All')
-        elif selected_main_category == 'Finance':
-            detailed_categories = ['Financial Services', 'Fintech', 'Payments', 'Insurance', 'Investment', 'Accounting', 'Lending', 'Personal Finance', 'Cryptocurrency', 'Invoice Trading', 'Wealth Management', 'Transaction Processing', 'Micro Lending']  # replace with your own categories
-            detailed_categories.append('All')
-        elif selected_main_category == 'Health and Wellness':
-            detailed_categories = ['Health Care', 'Healthtech', 'Medical Device', 'Fitness', 'Medical', 'Biotechnology', 'Nutrition', 'Dental', 'Pharmaceuticals', 'Personal Health', 'Home Health Care', 'Medtech', 'Elder Care']  # replace with your own categories
-            detailed_categories.append('All')
-        elif selected_main_category == 'Retail and E-commerce':
-            detailed_categories = ['E-Commerce', 'Marketplace', 'Retail', 'Fashion', 'Grocery', 'Shopping', 'Cosmetics', 'Gift', 'Catering', 'Wholesale', 'Subscription Service', 'Bakery', 'Alcohol', 'Mattress']
-            detailed_categories.append('All')
-        elif selected_main_category == 'Education':
-            detailed_categories = ['Education', 'E-Learning', 'EdTech', 'Training', 'Higher Education', 'Secondary Education', 'Tutoring']
-            detailed_categories.append('All')
-        elif selected_main_category == 'Media and Entertainment':
-            detailed_categories = ['Media & Entertainment', 'Music', 'TV', 'Broadcasting', 'Photography', 'Film Production', 'Content Creators']
-            detailed_categories.append('All')
-        elif selected_main_category == 'Travel and Hospitality':
-            detailed_categories = ['Travel', 'Tourism', 'Hospitality', 'Adventure Travel', 'Resorts', 'Co-Living', 'Fast-moving Consumer Goods (FMCG)', 'Tea', 'Air Transportation', 'Maritime']
-            detailed_categories.append('All')
-        elif selected_main_category == 'Marketing and Advertising':
-            detailed_categories = ['Marketing', 'Digital Marketing', 'Advertising', 'Content Marketing', 'Loyalty', 'Loyalty Programs', 'Payroll', 'Email Marketing', 'Influencers', 'Affiliate Marketing']
-            detailed_categories.append('All')
-        elif selected_main_category == 'Human Resources':
-            detailed_categories = ['Human Resources', 'Recruitment', 'Staffing Agency', 'Employment', 'Employee Benefits', 'Entrepreneur First', 'Professional Networking']
-            detailed_categories.append('All')
-        elif selected_main_category == 'Real Estate and Property':
-            detailed_categories = ['Real Estate', 'Property Management', 'PropTech', 'Construction', 'Home Renovation', 'Parking', 'Real Estate Investment', 'Smart Building']
-            detailed_categories.append('All')
-        elif selected_main_category == 'Food and Beverage':
-            detailed_categories = ['Food & Beverage (F&B)', 'Food Processing', 'Foodtech', 'Food Delivery', 'Coffee', 'Restaurants', 'Catering', 'Bakery', 'Alcohol', 'Hydroponics']
-            detailed_categories.append('All')
-        else:
-            detailed_categories = ['Other']
-            detailed_categories.append('All')
+        elif search_method == 'Search by Category':
+            # Display content for searching by category
+            st.header('Search by Category')
+            # get unique values from grp_category columns
+            grp_categories = data.filter(regex='grp_category').values.ravel()
+            grp_categories = pd.unique([x for x in grp_categories if str(x) != 'nan'])
 
-        selected_detailed_category = st.selectbox('Select detailed category', detailed_categories)
+            # Main category dropdown
+            main_categories = ['Technology', 'Finance', 'Health and Wellness', 'Retail and E-commerce', 'Education',
+                               'Media and Entertainment', 'Travel and Hospitality', 'Marketing and Advertising',
+                               'Human Resources', 'Real Estate and Property', 'Food and Beverage',
+                               'Other']  # replace with your own categories
+            selected_main_category = st.selectbox('Select main category', main_categories)
 
-        # Filter data based on selected categories
-        if selected_detailed_category == 'All':
-            filtered_df = data[data['grp_category_0'].eq(selected_main_category) |
-                               data['grp_category_1'].eq(selected_main_category) |
-                               data['grp_category_2'].eq(selected_main_category) |
-                               data['grp_category_3'].eq(selected_main_category) |
-                               data['grp_category_4'].eq(selected_main_category) |
-                               data['grp_category_5'].eq(selected_main_category) |
-                               data['grp_category_6'].eq(selected_main_category) |
-                               data['grp_category_7'].eq(selected_main_category) |
-                               data['grp_category_8'].eq(selected_main_category)]
-        else:
-            filtered_df = data[
-                (data['grp_category_0'] == selected_main_category) & (
-                        (data['category_0'] == selected_detailed_category) |
-                        (data['category_1'] == selected_detailed_category) |
-                        (data['category_2'] == selected_detailed_category) |
-                        (data['category_3'] == selected_detailed_category) |
-                        (data['category_4'] == selected_detailed_category) |
-                        (data['category_5'] == selected_detailed_category) |
-                        (data['category_6'] == selected_detailed_category) |
-                        (data['category_7'] == selected_detailed_category) |
-                        (data['category_8'] == selected_detailed_category)
-                )]
+            # Detailed category dropdown
+            if selected_main_category == 'Technology':
+                detailed_categories = ['Information Technology', 'Software', 'Mobile Apps', 'Internet',
+                                       'Artificial Intelligence (AI)', 'Internet of Things (IoT)', 'Web Development',
+                                       'Cloud', 'Automation', 'Big Data', 'Machine Learning', 'Robotics', 'Blockchain',
+                                       'Augmented Reality', 'Virtual Reality', 'Smart Home', 'Clean Energy', 'Sensor',
+                                       'Nanotechnology', 'Developer Apis']
+                detailed_categories.append('All')
+            elif selected_main_category == 'Finance':
+                detailed_categories = ['Financial Services', 'Fintech', 'Payments', 'Insurance', 'Investment',
+                                       'Accounting', 'Lending', 'Personal Finance', 'Cryptocurrency', 'Invoice Trading',
+                                       'Wealth Management', 'Transaction Processing',
+                                       'Micro Lending']  # replace with your own categories
+                detailed_categories.append('All')
+            elif selected_main_category == 'Health and Wellness':
+                detailed_categories = ['Health Care', 'Healthtech', 'Medical Device', 'Fitness', 'Medical',
+                                       'Biotechnology', 'Nutrition', 'Dental', 'Pharmaceutical', 'Personal Health',
+                                       'Home Health Care', 'Medtech', 'Elder Care']  # replace with your own categories
+                detailed_categories.append('All')
+            elif selected_main_category == 'Retail and E-commerce':
+                detailed_categories = ['E-Commerce', 'Marketplace', 'Retail', 'Fashion', 'Grocery', 'Shopping',
+                                       'Cosmetics', 'Gift', 'Catering', 'Wholesale', 'Subscription Service', 'Bakery',
+                                       'Alcohol', 'Mattress']
+                detailed_categories.append('All')
+            elif selected_main_category == 'Education':
+                detailed_categories = ['Education', 'E-Learning', 'EdTech', 'Training', 'Higher Education',
+                                       'Secondary Education', 'Tutoring']
+                detailed_categories.append('All')
+            elif selected_main_category == 'Media and Entertainment':
+                detailed_categories = ['Media & Entertainment', 'Music', 'TV', 'Broadcasting', 'Photography',
+                                       'Film Production', 'Content Creators']
+                detailed_categories.append('All')
+            elif selected_main_category == 'Travel and Hospitality':
+                detailed_categories = ['Travel', 'Tourism', 'Hospitality', 'Adventure Travel', 'Resorts', 'Co-Living',
+                                       'Fast-moving Consumer Goods (FMCG)', 'Tea', 'Air Transportation', 'Maritime']
+                detailed_categories.append('All')
+            elif selected_main_category == 'Marketing and Advertising':
+                detailed_categories = ['Marketing', 'Digital Marketing', 'Advertising', 'Content Marketing', 'Loyalty',
+                                       'Loyalty Programs', 'Payroll', 'Email Marketing', 'Influencers',
+                                       'Affiliate Marketing']
+                detailed_categories.append('All')
+            elif selected_main_category == 'Human Resources':
+                detailed_categories = ['Human Resources', 'Recruitment', 'Staffing Agency', 'Employment',
+                                       'Employee Benefits', 'Entrepreneur First', 'Professional Networking']
+                detailed_categories.append('All')
+            elif selected_main_category == 'Real Estate and Property':
+                detailed_categories = ['Real Estate', 'Property Management', 'PropTech', 'Construction',
+                                       'Home Renovation', 'Parking', 'Real Estate Investment', 'Smart Building']
+                detailed_categories.append('All')
+            elif selected_main_category == 'Food and Beverage':
+                detailed_categories = ['Food & Beverage (F&B)', 'Food Processing', 'Foodtech', 'Food Delivery',
+                                       'Coffee', 'Restaurants', 'Catering', 'Bakery', 'Alcohol', 'Hydroponics']
+                detailed_categories.append('All')
+            else:
+                detailed_categories = ['Internet of Things (IoT)', 'Apps', 'Consulting', 'Agriculture', 'Saas',
+                                       'Online Portals', 'Logistics', 'Manufacturing', 'Human Resources (HR)',
+                                       'Enterprise Software', 'Automotive', 'Engineering', 'AgriTech', 'Mobile',
+                                       'Wellness', 'Delivery', 'Technology', 'Gaming', 'Consumer Goods',
+                                       'Transportation', 'Web Design', 'Social Media', 'Rental', 'Data Analytics',
+                                       'Beauty', 'Digital', 'Lifestyle',
+                                       'Information & Communications Technology (ICT)', 'Sustainability', 'Finance',
+                                       'B2B', 'Analytics', 'Drones', 'Information Services', 'Events', 'Web Apps',
+                                       'Supply Chain', 'Farming', 'Computer', 'Telecommunications', 'News',
+                                       'Waste Management', 'Social Enterprise', 'IT Solutions Provider', 'Security',
+                                       'Renewable Energy', 'Enterprise Solutions', 'Mobile Payments', 'Co-Working',
+                                       'Hardware', 'Sports', 'Event Management', 'Digital Transformation', 'Energy',
+                                       'Children', 'Health', 'Design', 'Cyber Security', 'Environment', 'Search Engine',
+                                       'Business Intelligence', 'Point of Sale (POS)', 'Recycling', 'Crowdfunding',
+                                       'Solar', 'Women', 'Communities', 'Virtual Reality (VR)', 'Organic',
+                                       'Home Services', 'Industrial Automation', 'Digital Media', 'Oil & Gas',
+                                       'Chemicals', 'Research', 'Delivery Service', 'Professional Services',
+                                       'Consumer Electronics', 'Ride Sharing', 'Market Research', 'Shipping',
+                                       'Insurtech', 'Data', 'Pharmaceutical', 'Interior Design', 'Lighting', 'Platform',
+                                       'Enterprise Resource Planning (Erp)', 'Freight Services',
+                                       'Small & Medium-sized Enterprises (SMEs)', 'Augmented Reality (Ar)', 'Cleaners',
+                                       'Digital Wallet', 'Mobile Games', 'Printing', 'Hotel', 'Building Materials',
+                                       'Skincare', '3D Technology', 'Cleaning Services', 'Automobile',
+                                       'Customer Service', 'Car Sharing', 'Courier Service', 'Graphic Design',
+                                       'Publishing', 'Electric Vehicle (Ev)', 'Property', 'Outsourcing',
+                                       'Sustainable Farming', 'Crm', 'Product Design', 'Procurement', '3D Printing',
+                                       'Aerospace', 'Wedding', 'Machinery', 'Maintenance', 'Video Streaming',
+                                       'Ticketing', 'Trading', 'Ios', 'Enterprise Applications', 'Water', 'Video',
+                                       'Home Decor', 'Social Media Marketing', 'Wireless', 'UX Design', 'Shoes',
+                                       'Video Games', 'Electrical Distribution', 'Textiles', 'Cloud Solutions',
+                                       'Car Rental', 'Predictive Analytics', 'Business Development', 'Hospital',
+                                       'E-Books', 'Crowdsourcing', 'Management Consulting', 'Banking',
+                                       'Location Based Services', 'Greentech', 'E-Commerce Platforms',
+                                       'Document Management', 'Repair', 'Sales', 'Mobile Advertising',
+                                       'Cloud Computing', 'Facial Recognition', 'Contractors', 'Aquaculture',
+                                       'Environmental Consulting', 'Packaging Services', 'Rewards', 'Electronics',
+                                       'Legal Tech', 'Travel Agency', 'Psychology', 'Fleet Management', 'Consumer',
+                                       'Service Industry', 'Gamification', 'Social Network', 'Database', 'Enterprise',
+                                       'Books', 'Wine & Spirits', 'Facility Management', 'Semiconductors',
+                                       'Data Science', 'Distribution', 'Legal', 'Leisure', 'Management Systems',
+                                       'Cleantech', 'Safety', 'Recreation', 'Energy Efficiency', 'Oil & Energy',
+                                       'Battery', 'Developer Platform', 'Android', 'Cloud Data Services', 'Messaging',
+                                       'Animal Feed', 'Venture Capital', 'Digital Signage', 'Materials',
+                                       'Medical Research', 'Furniture', 'Social News', 'Price Comparison', 'Coupons',
+                                       'Aviation', 'Consumer Research', 'B2C', 'App Development', 'Public Relations',
+                                       'Online Games', 'Developer Tools', 'Simulation', 'Flowers', 'Mobility',
+                                       'Equipment', 'Pet', 'Vending Machine', 'Deep Learning', 'Jewellery',
+                                       'Asset Management', 'Wearables', 'Leasing', 'Incubators', 'Toys',
+                                       'Data Visualization', 'Gps', 'Water Treatment', 'Private Social Networking',
+                                       'Document Preparation', 'Bitcoin', 'Chatbot', 'Collaboration', 'E-Scooter',
+                                       'Warehouse', 'VoIP', 'Cloud Security', 'Social', 'Enviromental', 'Green',
+                                       'Customer Success', 'Universities', 'Biomedical', 'Risk Management',
+                                       'Network Security', 'Data Integration', 'Web', 'Programming',
+                                       'Communications Infrastructure', 'Accommodation', 'Mobile Health (mHealth)',
+                                       'Esports', 'Microfinance', 'Tours', 'Sales Automation', 'Marine Transportation',
+                                       'Data Mining', 'Content', 'Auto Insurance', 'Real Time', 'Fundraising', 'Bus',
+                                       'Dating', 'Ethereum', 'Web Hosting', 'Trading Platform', 'Mapping Services',
+                                       'Data Management', 'Online', 'Renewable', 'Autonomous Vehicles', 'Cloud Kitchen',
+                                       'Workflow Digitalization Service', 'Architecture', 'Freelance',
+                                       'Digital Banking', 'App Marketing', 'Import', 'Football', 'Seo', 'Timber',
+                                       'Paper', 'Recruiment', 'Cards', 'Task Management', 'Air Conditioner',
+                                       'Association', 'Communications', 'Gift Card', 'Markeplace', 'Tracking',
+                                       'Qr Codes', 'Business', 'Animal', 'Test & Measurement', 'Mobile Advetising',
+                                       'Software Engineering', 'Diamonds', 'Productivity Tools',
+                                       'Last Mile Transportation', 'Web Developer', 'Leather',
+                                       'Human Computer Interaction', 'Game', 'Social Commerce',
+                                       'Food and Beverage (F&B)', 'Translation', 'Elderly', 'Coding',
+                                       'Natural Language Processing', 'Luxury Goods', 'Financial Exchanges',
+                                       'Diagnostics', 'Satellite Communication', 'Audio', 'Peer-to-Peer (P2P)',
+                                       'Genetics', 'Consumer Software', 'Api', 'Plastic', 'Medicine', 'Film',
+                                       'Intellectual Property', 'Industrial Manufacturing', 'Mobile Devices',
+                                       'Smart Cities', 'Mechanical Engineering', 'Skills Assessment', 'Wallet',
+                                       'Retail Technology', 'Local Advertising', 'Social Entrepreneurship', 'Unbanked',
+                                       'Service Providers', 'Government', 'Parenting', 'Debt Collections', 'Carrier',
+                                       'Image Recognition', 'Computer Vision', 'Identity Management',
+                                       'Project Management', 'It Infrastructure', 'Exchange', 'Marketing Automation',
+                                       'Cooking', 'Infrastructure', 'Bicycles', 'E-Procurement', 'Home Electronics',
+                                       'Ad Network', 'Brand Marketing', 'Travel Accommodations', 'Lidar', 'Satellite',
+                                       'Property Development', 'Social Media Management', 'Email', 'IT Management',
+                                       'Sharing Economy', 'Genomics', 'Clinical Trials', 'Integrated Circuits',
+                                       'Therapeutics', 'Business Information Systems', 'Power Generation',
+                                       'Social Media Advertising', 'Commercial Lending', 'Funding Platform',
+                                       'Bioresearch', 'Gardening', 'Poultry', 'Industrial Engineering', 'Social Impact',
+                                       'Sms', 'Same Day Delivery', 'Fishing', 'Cms', 'Electric', 'Corporate Training',
+                                       'Food Alternatives', 'Vacation Rental']
+                detailed_categories.append('All')
+            selected_detailed_category = st.selectbox('Select detailed category', detailed_categories)
 
-        # Display filtered data
-        # Drop columns 'grp_ctgry_0' to 'grp_ctgry_8'
-        data_filtered = filtered_df.drop(
-            columns=['grp_category_0', 'grp_category_1', 'grp_category_2', 'grp_category_3', 'grp_category_4', 'grp_category_5',
-                     'grp_category_6', 'grp_category_7', 'grp_category_8'])
-        st.write(data_filtered)
+            # Filter data based on selected categories
+            if selected_detailed_category == 'All':
+                filtered_df = data[data['grp_category_0'].eq(selected_main_category) |
+                                   data['grp_category_1'].eq(selected_main_category) |
+                                   data['grp_category_2'].eq(selected_main_category) |
+                                   data['grp_category_3'].eq(selected_main_category) |
+                                   data['grp_category_4'].eq(selected_main_category) |
+                                   data['grp_category_5'].eq(selected_main_category) |
+                                   data['grp_category_6'].eq(selected_main_category) |
+                                   data['grp_category_7'].eq(selected_main_category) |
+                                   data['grp_category_8'].eq(selected_main_category)]
+            else:
+                filtered_df = data[
+                    (
+                            (data['grp_category_0'] == selected_main_category) |
+                            (data['grp_category_1'] == selected_main_category) |
+                            (data['grp_category_2'] == selected_main_category) |
+                            (data['grp_category_3'] == selected_main_category) |
+                            (data['grp_category_4'] == selected_main_category) |
+                            (data['grp_category_5'] == selected_main_category) |
+                            (data['grp_category_6'] == selected_main_category) |
+                            (data['grp_category_7'] == selected_main_category) |
+                            (data['grp_category_8'] == selected_main_category)
+                    ) & (
+                            (data['category_0'] == selected_detailed_category) |
+                            (data['category_1'] == selected_detailed_category) |
+                            (data['category_2'] == selected_detailed_category) |
+                            (data['category_3'] == selected_detailed_category) |
+                            (data['category_4'] == selected_detailed_category) |
+                            (data['category_5'] == selected_detailed_category) |
+                            (data['category_6'] == selected_detailed_category) |
+                            (data['category_7'] == selected_detailed_category) |
+                            (data['category_8'] == selected_detailed_category)
+                    )]
+
+            # Display filtered data
+            # Drop columns 'grp_ctgry_0' to 'grp_ctgry_8'
+            data_filtered = filtered_df.drop(
+                columns=['grp_category_0', 'grp_category_1', 'grp_category_2', 'grp_category_3', 'grp_category_4',
+                         'grp_category_5',
+                         'grp_category_6', 'grp_category_7', 'grp_category_8'])
+            # Create a dictionary to map column names to formal names
+            formal_names = {
+                'name_c': 'Company Name',
+                'incorporated_date_c': 'Incorporated Date',
+                'total_funding_c': 'Total Funding',
+                'last_valuation_c': 'Last Valuation',
+                'last_round_size_c': 'Last Round Size',
+                'revenue_c': 'Latest Year Revenue',
+                'date_of_last_round': 'Date of Last Round',
+                'fy_end': 'Date of Financial Year End',
+                'revenue_growth(%)': 'Revenue Growth (%)',
+                'EBIT_c': 'Earnings Before Interest and Tax',
+                'employee_growth_6(%)': 'Employee Growth Past 6 Months (%)',
+                'employee_growth_12(%)': 'Employee Growth Past 12 Months (%)',
+                'num_founders': 'Number of Founders',
+                'num_funding_rounds': 'Number of Funding Rounds',
+                'num_shareholders': 'Number of Shareholders',
+                'min_share': 'Minimum Share',
+                'median_share': 'Median Share',
+                'max_share': 'Maximum Share',
+                'category_0': 'Category 1',
+                'category_1': 'Category 2',
+                'category_2': 'Category 3',
+                'category_3': 'Category 4',
+                'category_4': 'Category 5',
+                'category_5': 'Category 6',
+                'category_6': 'Category 7',
+                'category_7': 'Category 8',
+                'category_8': 'Category 9'
+            }
+
+            # Rename the columns using the formal names
+            data_filtered.rename(columns=formal_names, inplace=True)
+
+            # Display the filtered data with formal column names
+            st.write(data_filtered)
 
 
     if(selected == 'Company Profile'):
