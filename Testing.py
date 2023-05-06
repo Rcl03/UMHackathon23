@@ -708,7 +708,7 @@ def run_website():
             st.markdown(f"<p style='font-size:20px; font-weight:bold;'>{company_name}</p>", unsafe_allow_html=True)
             st.markdown(f"<p style='font-size:18px;'>Revenue Growth: {revenue_growth}%</p>", unsafe_allow_html=True)
 
-        st.title('Categorical Ranking')
+        st.title('Feature Ranking')
         num_var_display = {
             'total_funding_c': 'Total Funding',
             'last_valuation_c': 'Last Valuation',
