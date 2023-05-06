@@ -77,7 +77,7 @@ def run_website():
             average_revenue_growth = {}
 
             for category in industry_categories:
-                category_df = df[df[category] == 1]
+                category_df = data[data[category] == 1]
                 average_growth = category_df['revenue_growth(%)'].mean()
                 average_revenue_growth[category] = average_growth
                 average_mean_revenues.append((industry_categories, average_mean_revenue))
