@@ -36,7 +36,7 @@ def run_website():
         x = filtered_data[x_column]
         y = filtered_data[y_column]
 
-        filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[y_column].notnull()) & (data[y_column] != 0)]
+        filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[x_column] != 1) & (data[y_column].notnull()) & (data[y_column] != 0) & (data[y_column] != 1)]
 
         # Create a Streamlit app
         st.title('Visualization')
