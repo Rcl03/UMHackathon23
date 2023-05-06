@@ -167,7 +167,11 @@ def run_website():
 #         chart = create_chart(filtered_data)
 #         st.altair_chart(chart, use_container_width=True)
 
-        if(selected == 'Categorical ranking'):
+
+
+        
+
+    if(selected == 'Categorical ranking'):
 
                 st.title('Categorical Ranking')
                 num_var_display = {
@@ -240,8 +244,6 @@ def run_website():
                             st.write(top_10)
                             st.write("Bottom 10")
                             st.write(bottom_10)
-
-
 
     if(selected == 'Search'):
 
@@ -380,7 +382,7 @@ def run_website():
                     yaxis=dict(title='Amount')
                 )
                 
-                fig1 = go.Figure(data=[trace2], layout=layout1)
+                fig1 = go.Figure(data=[trace2], layout=layout2)
 
                 # Display the figure
                 st.plotly_chart(fig2)
