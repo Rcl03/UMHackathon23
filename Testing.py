@@ -5,12 +5,14 @@ import plotly.graph_objs as go
 import pickle
 import plotly.express as px
 import altair as alt
+import numpy as np
 
 data = pd.read_csv("updated_data.csv")
+st.set_page_config(page_title="Venture Capital")
 
 def run_website():
     with st.sidebar:
-        selected = option_menu('Vental Capital Analysis Website',
+        selected = option_menu('Venture Capital Analysis Website',
                             
                             ['Analytics Dashboard',
                              'Categorical ranking',
@@ -50,16 +52,35 @@ def run_website():
         # Display the chart using Streamlit
         st.plotly_chart(sc)
 
-
-
-        st.write("To be coded")
-
         fig = go.Figure(data=go.Scatter(x=data["incorporated_date_c"], y=data["revenue_c"], mode='markers'))
         # Add axis labels and title
         fig.update_layout(xaxis_title="Incorporation Date", yaxis_title="Total Revenue", title="Revenue over time")
 
         # Show plot
         st.plotly_chart(fig)
+        
+        # Create button to filter data
+        button = st.button('Employee Growth (12 months)')
+        
+        # Create a container to hold the button and the plot
+        container = st.container()
+
+        fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_6(%)"], mode='markers'))
+        # Add axis labels and title
+        fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_6(%)", title="Revenue Growth vs Employee Growth (6 months)")
+
+        # Show plot
+        st.plotly_chart(fig)
+
+        # If button is clicked, filter data and show the filtered scatter plot
+        if button:
+            fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_12(%)"], mode='markers'))
+            
+            # Add axis labels and title
+            fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_12(%)", title="Revenue Growth vs Employee Growth (12 months)")
+
+            # Show plot
+            st.plotly_chart(fig)
 
 
         # Create a slider to select the year
@@ -70,6 +91,9 @@ def run_website():
 
         # Create the plot using Plotly Express
         fig = px.scatter(data_filtered, x="incorporated_date_c", y="total_funding_c")
+        
+        # Set the title of the chart
+        fig.update_layout(title='Incoporate Date vs Total funding')
 
         # Display the plot
         st.plotly_chart(fig)
@@ -349,7 +373,7 @@ def run_website():
                 st.write("Categories: {}, {}, {}, {}, {}, {}, {}, {}".format(row[18], row[19], row[20], row[21], row[23], row[24], row[25], row[26]))
                 # Sample data
                 
-                x_data1 = ['Total Funding', 'Revenue', 'Ebit']  # Y-axis names
+                x_data1 = ['Total Funding', 'Revenue', 'Ebit']  # X-axis names
                 # Use y-axis values as x-axis values
                 y_data1 = [row[2], row[5], row[9]] 
 
@@ -368,7 +392,7 @@ def run_website():
                 # Display the figure
                 st.plotly_chart(fig1)
                
-                x_data2 = ['Revenue Growth', 'Employee Growth(6m)', 'Employee Growth (12m)']  # Y-axis names
+                x_data2 = ['Revenue Growth', 'Employee Growth(6m)', 'Employee Growth (12m)']  # X-axis names
                 # Use y-axis values as x-axis values
                 y_data2 = [row[8], row[10], row[11]] 
 
@@ -390,3 +414,4 @@ def run_website():
 
 
 run_website()
+
