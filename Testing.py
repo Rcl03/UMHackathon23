@@ -605,6 +605,19 @@ def run_website():
         container.altair_chart(scatter_plot, use_container_width=True)
 
         # Create a function to filter the data based on the selected range of total funding
+
+        
+        columns = ["employee_growth_6(%)", "revenue_growth(%)"]
+
+        # Create the plot using Plotly Express
+        fig = px.scatter(data, x="employee_growth_6(%)", y="revenue_growth(%)", hover_name="name_c")
+
+        # Set the title of the chart
+        fig.update_layout(title="Employee Growth vs Revenue Growth")
+
+        # Display the plot
+        st.plotly_chart(fig)
+
         def filter_data(total_fund_min, total_fund_max):
             return data[(data['total_funding_c'] >= total_fund_min) & (data['total_funding_c'] <= total_fund_max)]
 
@@ -618,18 +631,6 @@ def run_website():
                 height=400
             )
             return chart
-        
-        columns = ["employee_growth_6(%)", "revenue_growth(%)"]
-
-        # Create the plot using Plotly Express
-        fig = px.scatter(data, x="employee_growth_6(%)", y="revenue_growth(%)", hover_name="name_c")
-
-        # Set the title of the chart
-        fig.update_layout(title="Employee Growth vs Revenue Growth")
-
-        # Display the plot
-        st.plotly_chart(fig)
-
         # Define the range of total funding to display in the bar char
         total_fund_min = st.slider("Minimum Total Funding", 0, 600000000, 0, 1000000)
         total_fund_max = st.slider("Maximum Total Funding", 0, 600000000, 600000000, 1000000)
