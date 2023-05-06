@@ -23,7 +23,7 @@ def run_website():
         
     if(selected == 'Analytics Dashboard'):
         
-        st.title('Analytics Dasgboard')
+        st.title('Analytics Dashboard')
         st.title('Revenue Growth by Company Category')
         st.write('Select a category from the dropdown menu to filter the data.')
         
@@ -536,35 +536,46 @@ def run_website():
 
         # Create a slider to select the year
         year_ranges = {
-                "Before 1990": (None, 1989),
-                "1990-1995": (1990, 1995),
-                "1996-2000": (1996, 2000),
-                "2001-2005": (2001, 2005),
-                "2006-2010": (2006, 2010),
-                "2011-2015": (2011, 2015),
-                "2016-2020": (2016, 2020),
-                "2021 until now": (2021, None)
-            }
+            "Before 1990": (None, 1989),
+            "1990-1995": (1990, 1995),
+            "1996-2000": (1996, 2000),
+            "2001-2005": (2001, 2005),
+            "2006-2010": (2006, 2010),
+            "2011-2015": (2011, 2015),
+            "2016-2020": (2016, 2020),
+            "2021 until now": (2021, None)
+        }
+
+        # Get the selected year range from the option menu
         selected_range = st.selectbox("Select year range", list(year_ranges.keys()))
 
-            # Get the minimum and maximum years based on the selected range
+        # Get the minimum and maximum years based on the selected range
         min_year, max_year = year_ranges[selected_range]
 
-            # Filter the data based on the selected year range
-        if min_year is not None:
-            data_filtered = data[data["incorporated_date_c"] >= min_year]
-        if max_year is not None:
-            data_filtered = data[data["incorporated_date_c"] <= max_year]
+        # Filter the data based on the selected year range
+        data_filtered = data.copy()  # Create a copy of the original data
 
-            # Create the plot using Plotly Express
+        if min_year is not None:
+            data_filtered = data_filtered[data_filtered["incorporated_date_c"] >= min_year]
+        if max_year is not None:
+            data_filtered = data_filtered[data_filtered["incorporated_date_c"] <= max_year]
+
+        # Create the plot using Plotly Express
         fig = px.scatter(data_filtered, x="incorporated_date_c", y="total_funding_c")
 
-            # Set the title of the chart
-        fig.update_layout(title='Incorporate Date vs Total Funding')
+        # Set the title of the chart
+        fig.update_layout(title=f'Incorporate Date vs Total Funding ({selected_range})')
 
-            # Display the plot
+        # Display the plot
         st.plotly_chart(fig)
-            # Get the selected year range from the option menu
+        range. The title of the chart is also updated to include the selected year range.
+
+
+
+
+
+
+
             
     
 
