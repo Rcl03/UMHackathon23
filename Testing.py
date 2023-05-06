@@ -8,6 +8,7 @@ import altair as alt
 import numpy as np
 import pickle
 import sklearn
+import matplotlib.pyplot as plt
     
 data = pd.read_csv("final dataset.csv")
 st.set_page_config(page_title="Venture Capital")
