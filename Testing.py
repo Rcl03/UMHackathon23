@@ -18,7 +18,7 @@ def run_website():
         selected = option_menu('VentureWise',
                             
                             ['Analytics Dashboard',
-                             'Categorical ranking',
+                             'Ranking',
                             'Search',
                             'Prediction'],
                             default_index=0)
@@ -572,32 +572,6 @@ def run_website():
         # Display the plot
         st.plotly_chart(fig)
 
-#         scatter_plot = alt.Chart(data).mark_circle().encode(
-#             x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
-#             y=alt.Y('last_valuation_c', title='Last Valuation'),
-#             color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
-#         )
-
-#         # Create button to filter data
-#         button_clicked = st.button('Filter data')
-
-#         # Create a container to hold the button and the plot
-#         container = st.container()
-
-#         # If button is clicked, filter data and show the filtered scatter plot
-#         if button_clicked:
-#             data_filtered = data[data["num_funding_rounds"] > 5]
-#             filtered_scatter_plot = alt.Chart(data_filtered).mark_circle().encode(
-#                 x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
-#                 y=alt.Y('last_valuation_c', title='Last Valuation'),
-#                 color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
-#             )
-#             container.altair_chart(filtered_scatter_plot, use_container_width=True)
-
-#         # Show the initial scatter plot
-#         container.altair_chart(scatter_plot, use_container_width=True)
-
-        # Create a function to filter the data based on the selected range of total funding
 
         
         columns = ["employee_growth_6(%)", "revenue_growth(%)"]
@@ -712,59 +686,8 @@ def run_website():
                 "<li style='font-size: 12px; margin-bottom: 0;'>Further analysis is required before considering investment.</li>",
                 unsafe_allow_html=True)
             st.write("</ul>", unsafe_allow_html=True)
-            
-               
-                   
 
-            # Filter the data based on the selected range of total funding
-          
-
-            # Create a button to generate the bar chart
-                 
-
-
-
-#         # Create a list of categories for the dropdown menu
-#         categories = ['All'] + list(data['category_0'].unique())
-
-#         # Define function to filter the data by category
-#         def filter_data(category):
-#             if category == 'All':
-#                 return data
-#             else:
-#                 return data[data['category_0'] == category]
-
-#         # Define function to create the chart
-#         def create_chart(df):
-#             chart = alt.Chart(df).mark_bar().encode(
-#                 x='category_0',
-#                 y='revenue_growth(%)',
-#                 tooltip=['category_0', 'revenue_growth(%)']
-#             ).properties(
-#                 width=700,
-#                 height=400
-#             )
-#             return chart
-
-# #         # Create Streamlit app
-# #         st.title('Revenue Growth by Company Category')
-# #         st.write('Select a category from the dropdown menu to filter the data.')
-
-#         # Add dropdown menu to select category
-#         category = st.selectbox('Select a category:', categories)
-
-#         # Filter data by selected category
-#         filtered_data = filter_data(category)
-
-#         # Create chart with filtered data
-#         chart = create_chart(filtered_data)
-#         st.altair_chart(chart, use_container_width=True)
-
-
-
-        
-
-    if(selected == 'Categorical ranking'):
+    if(selected == 'Ranking'):
 
         # Sort the dataframe by success probability in descending order
         df_sorted = data.sort_values(by='revenue_growth(%)', ascending=False)
