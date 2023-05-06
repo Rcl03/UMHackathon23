@@ -129,9 +129,9 @@ def run_website():
                mean_revenues = [x[1] for x in average_mean_revenues]
 
                 # Create a DataFrame for the data
-               data1 = pd.DataFrame({'Finance': variable_labels, 'Mean Revenue': mean_revenues})
+               data2 = pd.DataFrame({'Finance': variable_labels, 'Mean Revenue': mean_revenues})
 
-               fig = px.bar(data1, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
+               fig = px.bar(data2, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
 
                 # Display the graph in Streamlit
                st.plotly_chart(fig)
