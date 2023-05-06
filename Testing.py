@@ -6,7 +6,9 @@ import pickle
 import plotly.express as px
 import altair as alt
 import numpy as np
-
+import pickle
+import sklearn
+    
 data = pd.read_csv("final dataset.csv")
 st.set_page_config(page_title="Venture Capital")
 
@@ -17,7 +19,8 @@ def run_website():
                             ['Analytics Dashboard',
                              'Categorical ranking',
                             'Search',
-                            'Company Profile'],
+                            'Company Profile',
+                            'Prediction'],
                             default_index=0)
         
         
@@ -854,6 +857,64 @@ def run_website():
         if search_method == 'Search by Company':
             # Display content for searching by company
             st.header('Search by Company')
+            input = st.selectbox(label='Name of company', options=data['name_c'])
+            count = 0
+            for value in data['name_c']:
+                if input == value:
+                    row = data.iloc[count]
+                    st.write("Incorporated date: ", row[1])
+                    st.write("Last valuation: ", row[3])
+                    st.write("Amount raised during last funding round: ", row[4])
+                    st.write("Date of last fund raise: ", row[6])
+                    st.write("Date of financial year end: ", row[7])
+                    st.write("Number of founder: ", row[12])
+                    st.write("Number of funding round: ", row[13])
+                    st.write("Number of shareholder: ", row[14])
+                    st.write("Minimum share in %: ", row[15])
+                    st.write("Median share in %: ", row[16])
+                    st.write("Maximum share in %: ", row[17])
+                    st.write("Categories: ", row[18])
+                    # Sample data
+
+                    x_data1 = ['Total Funding', 'Revenue', 'Ebit']  # X-axis names
+                    # Use y-axis values as x-axis values
+                    y_data1 = [row[2], row[5], row[9]] 
+
+                    # Create bar trace for y-variable
+                    trace1 = go.Bar(x=x_data1, y=y_data1,width=0.5)
+
+                    # Create layout
+                    layout1 = go.Layout(
+                        title='"Total Funding","Revenue","EBIT',
+                        xaxis=dict(title='Features'),
+                        yaxis=dict(title='Amount')
+                    )
+
+                    fig1 = go.Figure(data=[trace1], layout=layout1)
+
+                    # Display the figure
+                    st.plotly_chart(fig1)
+
+                    x_data2 = ['Revenue Growth', 'Employee Growth(6m)', 'Employee Growth (12m)']  # X-axis names
+                    # Use y-axis values as x-axis values
+                    y_data2 = [row[8], row[10], row[11]] 
+
+                    # Create bar trace for y-variable
+                    trace2 = go.Bar(x=x_data2, y=y_data2,width=0.5)
+
+                    # Create layout
+                    layout2 = go.Layout(
+                        title='"Revenue Growth","Employee Growth(6m)","Employee Growth (12m)',
+                        xaxis=dict(title='Features'),
+                        yaxis=dict(title='Amount')
+                    )
+
+                    fig2 = go.Figure(data=[trace2], layout=layout2)
+
+                    # Display the figure
+                    st.plotly_chart(fig2)
+                count = count+1
+
             # Your code for searching by company goes here
 
         elif search_method == 'Search by Category':
@@ -1089,68 +1150,149 @@ def run_website():
 
             # Display the filtered data with formal column names
             st.write(data_filtered)
-            
-if(selected == 'Cstegory Profile'):
+if(selected == 'Prediction'):
+
+
+    def load_model():
+        loaded_model = pickle.load(open("VCmodel.pkl", 'rb'))
+        return loaded_model
+
+    def normalize(type,val):
+        if type=="Funding":
+            return (val-(1.373136e+06))/(1.645224e+07)
+        elif type=="Revenue":
+            return (val-(3.460575e+06))/(3.595783e+07)
+        elif type=="ebit":
+            return (val-(-1.068171e+05))/(7.485605e+06)	
+        elif type=="E6":
+            return (val-(8.060758))/(38.771438)	
+        elif type=="E12":
+            return (val-(25.505254))/(79.271844)	
+        elif type=="Founders":
+            return (val-(2.428510))/(2.629927)
+        elif type=="Rounds":
+            return (val-(0.203746))/(0.650948)	
+        elif type=="Shareholder":
+            return (val-(6.439745))/(14.708537)
+        elif type=="Median":
+            return (val-(42.792926))/(31.694526)
+
+
+    # page title
+    st.title('Company growth potential prediction')
+
+    # getting the input data from the user
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        funding = st.number_input(label='Total Funding Till Date')
+
+    with col2:
+        revenue = st.number_input(label='Revenue for Latest Financial Year')
+
+    with col3:
+        EBIT = st.number_input(label='Earnings before Interest and Fax')
+
+    with col1:
+        e6 = st.number_input(label='Employee Growth Past 6 Months')
+
+    with col2:
+        e12 = st.number_input(label='Employee Growth Past 12 Months')
+
+
+    with col3:
+        founders = st.number_input(label='Number of Founders')
+
+    with col1:
+        rounds = st.number_input(label='Number of Funding Rounds')
+
+    with col2:
+        shareholders = st.number_input(label='Number of Shareholders')
+
+    with col3:
+        median = st.number_input(label='Median Share in %')
+
+    features = {
+      'Funding': funding, 'Revenue':revenue, 'ebit':EBIT,
+      'E6':e6, 'E12':e12, 'Founders':founders, 'Rounds':rounds,
+      'Shareholder':shareholders, 'Median':median}
+
+    adjusted_features=[normalize("Funding",funding), normalize("Revenue",revenue),normalize("ebit",EBIT),
+                       normalize("E6",e6),normalize("E12",e12),normalize("Founders",founders),
+                       normalize("Rounds", rounds), normalize("Shareholder",shareholders),normalize("Median", median)]
+
+    input=np.array(adjusted_features).reshape(1, -1)
+
+
+                # creating a button for Prediction
+
+    if st.button('Predict Revenue Growth'):
+      loaded = load_model()
+      prediction = loaded.predict(input)
+      st.write('Based on features values, the revenue growth is ' + str(int(prediction)))
+    
+    
+if(selected == 'Profile'):
     # Display content for searching by company
             st.header('Search by Company')
             input = st.selectbox(label='Name of company', options=data['name_c'])
-        count = 0
-        for value in data['name_c']:
-            if input == value:
-                row = data.iloc[count]
-                st.write("Incorporated date: ", row[1])
-                st.write("Last valuation: ", row[3])
-                st.write("Amount raised during last funding round: ", row[4])
-                st.write("Date of last fund raise: ", row[6])
-                st.write("Date of financial year end: ", row[7])
-                st.write("Number of founder: ", row[12])
-                st.write("Number of funding round: ", row[13])
-                st.write("Number of shareholder: ", row[14])
-                st.write("Minimum share in %: ", row[15])
-                st.write("Median share in %: ", row[16])
-                st.write("Maximum share in %: ", row[17])
-                st.write("Categories: ", row[18])
-                # Sample data
-                
-                x_data1 = ['Total Funding', 'Revenue', 'Ebit']  # X-axis names
-                # Use y-axis values as x-axis values
-                y_data1 = [row[2], row[5], row[9]] 
+            count = 0
+            for value in data['name_c']:
+                if input == value:
+                    row = data.iloc[count]
+                    st.write("Incorporated date: ", row[1])
+                    st.write("Last valuation: ", row[3])
+                    st.write("Amount raised during last funding round: ", row[4])
+                    st.write("Date of last fund raise: ", row[6])
+                    st.write("Date of financial year end: ", row[7])
+                    st.write("Number of founder: ", row[12])
+                    st.write("Number of funding round: ", row[13])
+                    st.write("Number of shareholder: ", row[14])
+                    st.write("Minimum share in %: ", row[15])
+                    st.write("Median share in %: ", row[16])
+                    st.write("Maximum share in %: ", row[17])
+                    st.write("Categories: ", row[18])
+                    # Sample data
 
-                # Create bar trace for y-variable
-                trace1 = go.Bar(x=x_data1, y=y_data1,width=0.5)
+                    x_data1 = ['Total Funding', 'Revenue', 'Ebit']  # X-axis names
+                    # Use y-axis values as x-axis values
+                    y_data1 = [row[2], row[5], row[9]] 
 
-                # Create layout
-                layout1 = go.Layout(
-                    title='"Total Funding","Revenue","EBIT',
-                    xaxis=dict(title='Features'),
-                    yaxis=dict(title='Amount')
-                )
-                
-                fig1 = go.Figure(data=[trace1], layout=layout1)
+                    # Create bar trace for y-variable
+                    trace1 = go.Bar(x=x_data1, y=y_data1,width=0.5)
 
-                # Display the figure
-                st.plotly_chart(fig1)
-               
-                x_data2 = ['Revenue Growth', 'Employee Growth(6m)', 'Employee Growth (12m)']  # X-axis names
-                # Use y-axis values as x-axis values
-                y_data2 = [row[8], row[10], row[11]] 
+                    # Create layout
+                    layout1 = go.Layout(
+                        title='"Total Funding","Revenue","EBIT',
+                        xaxis=dict(title='Features'),
+                        yaxis=dict(title='Amount')
+                    )
 
-                # Create bar trace for y-variable
-                trace2 = go.Bar(x=x_data2, y=y_data2,width=0.5)
+                    fig1 = go.Figure(data=[trace1], layout=layout1)
 
-                # Create layout
-                layout2 = go.Layout(
-                    title='"Revenue Growth","Employee Growth(6m)","Employee Growth (12m)',
-                    xaxis=dict(title='Features'),
-                    yaxis=dict(title='Amount')
-                )
-                
-                fig2 = go.Figure(data=[trace2], layout=layout2)
+                    # Display the figure
+                    st.plotly_chart(fig1)
 
-                # Display the figure
-                st.plotly_chart(fig2)
-            count = count+1
+                    x_data2 = ['Revenue Growth', 'Employee Growth(6m)', 'Employee Growth (12m)']  # X-axis names
+                    # Use y-axis values as x-axis values
+                    y_data2 = [row[8], row[10], row[11]] 
 
+                    # Create bar trace for y-variable
+                    trace2 = go.Bar(x=x_data2, y=y_data2,width=0.5)
+
+                    # Create layout
+                    layout2 = go.Layout(
+                        title='"Revenue Growth","Employee Growth(6m)","Employee Growth (12m)',
+                        xaxis=dict(title='Features'),
+                        yaxis=dict(title='Amount')
+                    )
+
+                    fig2 = go.Figure(data=[trace2], layout=layout2)
+
+                    # Display the figure
+                    st.plotly_chart(fig2)
+                count = count+1
+
+        
 
 
 run_website()
