@@ -22,8 +22,6 @@ def run_website():
         
         
     if(selected == 'Analytics Dashboard'):
-
-
         # Assuming your dataset is stored in a DataFrame called 'df'
         variables = [
             'Information Technology', 'Software', 'Mobile Apps', 'Internet',
@@ -58,18 +56,20 @@ def run_website():
         categories = [x[0] for x in average_mean_revenues]
         average_revenue = [x[1] for x in average_mean_revenues]
 
-        # Create the plot
-        fig, ax = plt.subplots(figsize=(10, 6))  # Adjust the figure size as needed
-        ax.bar(categories, average_revenue)
+        # Create a bar plot using Plotly
+        data = go.Bar(x=categories, y=average_revenue)
 
         # Customize the plot
-        ax.set_title('Average Mean Revenue by Industry Category')
-        ax.set_xlabel('Industry Category')
-        ax.set_ylabel('Average Mean Revenue')
-        ax.set_xticklabels(categories, rotation=90)  # Rotate x-axis labels for better readability
+        layout = go.Layout(
+            title='Average Mean Revenue by Industry Category',
+            xaxis=dict(title='Industry Category'),
+            yaxis=dict(title='Average Mean Revenue')
+        )
+
+        fig = go.Figure(data=data, layout=layout)
 
         # Display the plot in Streamlit
-        st.pyplot(fig)
+        st.plotly_chart(fig)
 
         
 #         x_column = 'total_funding_c'
