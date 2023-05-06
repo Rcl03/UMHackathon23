@@ -220,9 +220,9 @@ def run_website():
             )
             return chart
 
-        # Create Streamlit app
-        st.title('Revenue Growth by Company Category')
-        st.write('Select a category from the dropdown menu to filter the data.')
+#         # Create Streamlit app
+#         st.title('Revenue Growth by Company Category')
+#         st.write('Select a category from the dropdown menu to filter the data.')
 
         # Add dropdown menu to select category
         category = st.selectbox('Select a category:', categories)
