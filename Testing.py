@@ -240,7 +240,9 @@ def run_website():
                         st.write(bottom_10)
 
                         fig = go.Figure()
-                        fig.add_trace(go.Scatter(x=top_10[''], y=top_10[target_feature], mode='lines',name = 'Top10', line = dict(color = 'blue')))
+#                         fig.add_trace(go.Scatter(x=top_10[''], y=top_10[target_feature], mode='lines',name = 'Top10', line = dict(color = 'blue')))
+                        fig.add_trace(go.Scatter(x=top_10['column_name'], y=top_10[target_feature], mode='lines', name='Top10', line=dict(color='blue')))
+
                         fig.add_trace(go.Scatter(x=bottom_10[f], y=bottom_10[target_feature], mode='lines',name = 'Bottom10', line = dict(color = 'blue')))
 
                         fig.update_layout(title='Two Datasets in One Plot',
