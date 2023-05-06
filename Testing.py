@@ -85,7 +85,7 @@ def run_website():
         button_clicked = st.button('Filter data')
 
         # Create a container to hold the button and the plot
-        container = st.beta_container()
+        container = st.container()
 
         # If button is clicked, filter data and show the filtered scatter plot
         if button_clicked:
@@ -251,15 +251,14 @@ if(selected == 'Categorical ranking'):
                     
 
                     for f in selected_features:
-                        fig = go.Figure()
-                        fig.add_trace(go.Scatter(x=top_10[f], y=top_10[target_feature], mode='lines',name = 'Top10', line = dict(color = 'blue')))
-                        fig.add_trace(go.Scatter(x=bottom_10[f], y=bottom_10[target_feature], mode='lines',name = 'Bottom10', line = dict(color = 'red')))
+                        b = go.Figure()
+                        b.add_trace(go.Scatter(x=top_10[f], y=top_10[target_feature], mode='lines',name = 'Top10', line = dict(color = 'blue')))
+                        b.add_trace(go.Scatter(x=bottom_10[f], y=bottom_10[target_feature], mode='lines',name = 'Bottom10', line = dict(color = 'red')))
                                 
-                        fig.update_layout(title='Two Datasets in One Plot',
+                        b.update_layout(title='Two Datasets in One Plot',
                         xaxis_title=f,
                         yaxis_title=target_feature)
-
-                        fig.show()
+                        b.show()
 
   
 
