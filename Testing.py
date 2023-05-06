@@ -618,6 +618,17 @@ def run_website():
                 height=400
             )
             return chart
+        
+        columns = ["employee_growth_6(%)", "revenue_growth(%)"]
+
+        # Create the plot using Plotly Express
+        fig = px.scatter(data, x="employee_growth(%)", y="revenue_growth(%)", hover_name="company_name")
+
+        # Set the title of the chart
+        fig.update_layout(title="Employee Growth vs Revenue Growth")
+
+        # Display the plot
+        st.plotly_chart(fig)
 
         # Define the range of total funding to display in the bar chart
         total_fund_min = st.sidebar.slider("Minimum Total Funding", 0, 600000000, 0, 1000000)
