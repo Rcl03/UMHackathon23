@@ -624,9 +624,9 @@ def run_website():
 
         def generate_bar_chart(data):
             chart = alt.Chart(data).mark_bar().encode(
-                x="incorporated_date_c",
+                x="total_funding_c",
                 y="revenue_growth(%)",
-                tooltip=["incorporated_date_c", "revenue_growth(%)"]
+                tooltip=["total_funding_c", "revenue_growth(%)"]
             ).properties(
                 title="Employee Growth and Revenue Growth",
                 width=600,
