@@ -853,66 +853,7 @@ def run_website():
         search_method = st.radio('Select Search Method', ('Search by Company', 'Search by Category'))
 
         if search_method == 'Search by Company':
-            # Display content for searching by company
-            st.header('Search by Company')
-            input = st.selectbox(label='Name of company', options=data['name_c'])
-        count = 0
-        for value in data['name_c']:
-            if input == value:
-                row = data.iloc[count]
-                st.write("Incorporated date: ", row[1])
-                st.write("Last valuation: ", row[3])
-                st.write("Amount raised during last funding round: ", row[4])
-                st.write("Date of last fund raise: ", row[6])
-                st.write("Date of financial year end: ", row[7])
-                st.write("Number of founder: ", row[12])
-                st.write("Number of funding round: ", row[13])
-                st.write("Number of shareholder: ", row[14])
-                st.write("Minimum share in %: ", row[15])
-                st.write("Median share in %: ", row[16])
-                st.write("Maximum share in %: ", row[17])
-                st.write("Categories: ", row[18])
-                # Sample data
-                
-                x_data1 = ['Total Funding', 'Revenue', 'Ebit']  # X-axis names
-                # Use y-axis values as x-axis values
-                y_data1 = [row[2], row[5], row[9]] 
-
-                # Create bar trace for y-variable
-                trace1 = go.Bar(x=x_data1, y=y_data1,width=0.5)
-
-                # Create layout
-                layout1 = go.Layout(
-                    title='"Total Funding","Revenue","EBIT',
-                    xaxis=dict(title='Features'),
-                    yaxis=dict(title='Amount')
-                )
-                
-                fig1 = go.Figure(data=[trace1], layout=layout1)
-
-                # Display the figure
-                st.plotly_chart(fig1)
-               
-                x_data2 = ['Revenue Growth', 'Employee Growth(6m)', 'Employee Growth (12m)']  # X-axis names
-                # Use y-axis values as x-axis values
-                y_data2 = [row[8], row[10], row[11]] 
-
-                # Create bar trace for y-variable
-                trace2 = go.Bar(x=x_data2, y=y_data2,width=0.5)
-
-                # Create layout
-                layout2 = go.Layout(
-                    title='"Revenue Growth","Employee Growth(6m)","Employee Growth (12m)',
-                    xaxis=dict(title='Features'),
-                    yaxis=dict(title='Amount')
-                )
-                
-                fig2 = go.Figure(data=[trace2], layout=layout2)
-
-                # Display the figure
-                st.plotly_chart(fig2)
-            count = count+1
-
+            
         elif search_method == 'Search by Category':
             # Display content for searching by category
             st.header('Search by Category')
@@ -1146,6 +1087,68 @@ def run_website():
 
             # Display the filtered data with formal column names
             st.write(data_filtered)
+            
+if(selected == 'Cstegory Profile'):
+    # Display content for searching by company
+            st.header('Search by Company')
+            input = st.selectbox(label='Name of company', options=data['name_c'])
+        count = 0
+        for value in data['name_c']:
+            if input == value:
+                row = data.iloc[count]
+                st.write("Incorporated date: ", row[1])
+                st.write("Last valuation: ", row[3])
+                st.write("Amount raised during last funding round: ", row[4])
+                st.write("Date of last fund raise: ", row[6])
+                st.write("Date of financial year end: ", row[7])
+                st.write("Number of founder: ", row[12])
+                st.write("Number of funding round: ", row[13])
+                st.write("Number of shareholder: ", row[14])
+                st.write("Minimum share in %: ", row[15])
+                st.write("Median share in %: ", row[16])
+                st.write("Maximum share in %: ", row[17])
+                st.write("Categories: ", row[18])
+                # Sample data
+                
+                x_data1 = ['Total Funding', 'Revenue', 'Ebit']  # X-axis names
+                # Use y-axis values as x-axis values
+                y_data1 = [row[2], row[5], row[9]] 
+
+                # Create bar trace for y-variable
+                trace1 = go.Bar(x=x_data1, y=y_data1,width=0.5)
+
+                # Create layout
+                layout1 = go.Layout(
+                    title='"Total Funding","Revenue","EBIT',
+                    xaxis=dict(title='Features'),
+                    yaxis=dict(title='Amount')
+                )
+                
+                fig1 = go.Figure(data=[trace1], layout=layout1)
+
+                # Display the figure
+                st.plotly_chart(fig1)
+               
+                x_data2 = ['Revenue Growth', 'Employee Growth(6m)', 'Employee Growth (12m)']  # X-axis names
+                # Use y-axis values as x-axis values
+                y_data2 = [row[8], row[10], row[11]] 
+
+                # Create bar trace for y-variable
+                trace2 = go.Bar(x=x_data2, y=y_data2,width=0.5)
+
+                # Create layout
+                layout2 = go.Layout(
+                    title='"Revenue Growth","Employee Growth(6m)","Employee Growth (12m)',
+                    xaxis=dict(title='Features'),
+                    yaxis=dict(title='Amount')
+                )
+                
+                fig2 = go.Figure(data=[trace2], layout=layout2)
+
+                # Display the figure
+                st.plotly_chart(fig2)
+            count = count+1
+
 
 
 run_website()
