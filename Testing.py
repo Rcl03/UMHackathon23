@@ -69,28 +69,43 @@ def run_website():
             # Display the graph in Streamlit
             st.plotly_chart(fig)
         else:
-            industry_categories = ['Technology', 'Finance', 'Health and Wellness', 'Retail and E-commerce', 'Education',
-                       'Media and Entertainment', 'Travel and Hospitality', 'Marketing and Advertising',
-                       'Human Resources', 'Real Estate and Property', 'Food and Beverage', 'Others']
+             variables = [
+                'Information Technology', 'Software', 'Mobile Apps', 'Internet',
+                'Artificial Intelligence (AI)', 'Internet of Things (IoT)', 'Web Development',
+                'Cloud', 'Automation', 'Big Data', 'Machine Learning', 'Robotics',
+                'Blockchain', 'Augmented Reality (AR)', 'Virtual Reality (VR)', 'Smart Home',
+                'Clean Energy', 'Sensor', 'Nanotechnology', 'Developer APIs'
+            ]
 
-            # Calculate the average revenue growth rate for each industry category
-            average_revenue_growth_industry = []
+            categories = [
+                'category_0', 'category_1', 'category_2', 'category_3',
+                'category_4', 'category_5', 'category_6', 'category_7',
+                'category_8'
+            ]
 
-            for category in industry_categories:
-                category_df = data[data[category] == 1]
-                average_growth_industry = category_df['revenue_growth(%)'].mean()
-                average_revenue_growth_industry[category] = average_growth_industry
-                average_mean_revenues_industry.append((industry_categories, average_revenue_growth_industry))
+            average_mean_revenues = []
 
+            # Loop through each variable
+            for variable in variables:
+                # Select rows where the variable is present in any of the category columns
+                variable_companies = data[data[categories].apply(lambda x: variable in x.values, axis=1)]
+
+                # Calculate the average mean revenue for the variable
+                average_mean_revenue = variable_companies['revenue_c'].mean()
+                average_mean_revenues.append((variable, average_mean_revenue))
 
             # Extract the categories and average revenues for plotting
-            industry_categories = [x[0] for x in average_mean_revenues_industry]
-            mean_revenues = [x[1] for x in average_mean_revenues_industry]
-                
-            data2 = pd.DataFrame({'industry_categories': industry_categories, 'Mean Revenue': mean_revenues})
+            variable_labels = [x[0] for x in average_mean_revenues]
+            mean_revenues = [x[1] for x in average_mean_revenues]
 
-            fig = px.bar(data2, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
+            # Create a DataFrame for the data
+            data_plot = pd.DataFrame({'Variable': variable_labels, 'Mean Revenue': mean_revenues})
 
+            # Create the bar graph using Plotly
+            fig = px.bar(data_plot, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
+
+            # Display the graph in Streamlit
+            st.plotly_chart(fig)
         
         # Create a Streamlit app
         st.title('Total funding vs Total revenue')
