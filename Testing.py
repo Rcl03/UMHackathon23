@@ -112,10 +112,10 @@ def run_website():
                     'category_8' ]
 
 
-                average_mean_revenues = []
+               average_mean_revenues = []
 
                 # Loop through each variable
-                for variable in variables:
+               for variable in variables:
                     # Select rows where the variable is present in any of the category columns
                     variable_companies = data[data[categories].apply(lambda x: variable in x.values, axis=1)]
 
@@ -125,16 +125,16 @@ def run_website():
 
 
                 # Extract the categories and average revenues for plotting
-                variable_labels = [x[0] for x in average_mean_revenues]
-                mean_revenues = [x[1] for x in average_mean_revenues]
+               variable_labels = [x[0] for x in average_mean_revenues]
+               mean_revenues = [x[1] for x in average_mean_revenues]
 
                 # Create a DataFrame for the data
-                data1 = pd.DataFrame({'Finance': variable_labels, 'Mean Revenue': mean_revenues})
+               data1 = pd.DataFrame({'Finance': variable_labels, 'Mean Revenue': mean_revenues})
 
-                fig = px.bar(data1, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
+               fig = px.bar(data1, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
 
                 # Display the graph in Streamlit
-                st.plotly_chart(fig)
+               st.plotly_chart(fig)
 
             
              
