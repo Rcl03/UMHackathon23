@@ -296,7 +296,7 @@ def run_website():
                 y_data = [row[8], row[10], row[11]] 
 
                 # Create bar trace for y-variable
-                trace = go.Bar(x=x_data, y=y_data,)
+                trace = go.Bar(x=x_data, y=y_data,,width=0.5)
 
                 # Create layout
                 layout = go.Layout(
@@ -305,7 +305,7 @@ def run_website():
                     yaxis=dict(title='Amount')
                 )
                 
-                fig = go.Figure(data=[trace], layout=layout,width=0.5)
+                fig = go.Figure(data=[trace], layout=layout)
 
                 # Display the figure
                 st.plotly_chart(fig)
