@@ -545,27 +545,27 @@ def run_website():
                 "2016-2020": (2016, 2020),
                 "2021 until now": (2021, None)
             }
-
-            # Get the selected year range from the option menu
-            selected_range = st.selectbox("Select year range", list(year_ranges.keys()))
+        selected_range = st.selectbox("Select year range", list(year_ranges.keys()))
 
             # Get the minimum and maximum years based on the selected range
-            min_year, max_year = year_ranges[selected_range]
+        min_year, max_year = year_ranges[selected_range]
 
             # Filter the data based on the selected year range
-            if min_year is not None:
-                data_filtered = data[data["incorporated_date_c"] >= min_year]
-            if max_year is not None:
-                data_filtered = data[data["incorporated_date_c"] <= max_year]
+        if min_year is not None:
+            data_filtered = data[data["incorporated_date_c"] >= min_year]
+        if max_year is not None:
+            data_filtered = data[data["incorporated_date_c"] <= max_year]
 
             # Create the plot using Plotly Express
-            fig = px.scatter(data_filtered, x="incorporated_date_c", y="total_funding_c")
+        fig = px.scatter(data_filtered, x="incorporated_date_c", y="total_funding_c")
 
             # Set the title of the chart
-            fig.update_layout(title='Incorporate Date vs Total Funding')
+        fig.update_layout(title='Incorporate Date vs Total Funding')
 
             # Display the plot
-            st.plotly_chart(fig)
+        st.plotly_chart(fig)
+            # Get the selected year range from the option menu
+            
     
 
         scatter_plot = alt.Chart(data).mark_circle().encode(
