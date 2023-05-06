@@ -23,13 +23,6 @@ def run_website():
         
     if(selected == 'Analytics Dashboard'):
         
-        # Create a DataFrame
-        data1 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [5, 3, 2, 4, 1]})
-        data2 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [3, 1, 4, 2, 5]})
-
-        # Create different charts using Altair
-        chart1 = alt.Chart(data1).mark_line().encode(x='x', y='y')
-        chart2 = alt.Chart(data2).mark_bar().encode(x='x', y='y')
 
         # Define the options for the selectbox
         options = ['Chart 1', 'Chart 2']
@@ -76,7 +69,27 @@ def run_website():
             # Display the graph in Streamlit
             st.plotly_chart(fig)
         else:
-            st.altair_chart(chart2, use_container_width=True)
+            industry_categories = ['Technology', 'Finance', 'Health and Wellness', 'Retail and E-commerce', 'Education',
+                       'Media and Entertainment', 'Travel and Hospitality', 'Marketing and Advertising',
+                       'Human Resources', 'Real Estate and Property', 'Food and Beverage', 'Others']
+
+            # Calculate the average revenue growth rate for each industry category
+            average_revenue_growth = {}
+
+            for category in industry_categories:
+                category_df = df[df[category] == 1]
+                average_growth = category_df['revenue_growth(%)'].mean()
+                average_revenue_growth[category] = average_growth
+                average_mean_revenues.append((industry_categories, average_mean_revenue))
+
+
+            # Extract the categories and average revenues for plotting
+            industry_categories = [x[0] for x in average_mean_revenues]
+            mean_revenues = [x[1] for x in average_mean_revenues]
+                
+            data1 = pd.DataFrame({'industry_categories': industry_categories, 'Mean Revenue': mean_revenues})
+
+            fig = px.bar(data1, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
 
         
         # Create a Streamlit app
