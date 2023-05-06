@@ -49,27 +49,17 @@ def run_website():
             average_mean_revenue = variable_companies['revenue_c'].mean()
             average_mean_revenues.append((variable, average_mean_revenue))
 
-        # Print the results
-        for variable, average_mean_revenue in average_mean_revenues:
-            print(f"Average mean revenue of companies containing '{variable}': {average_mean_revenue}")
 
         # Extract the categories and average revenues for plotting
-        categories = [x[0] for x in average_mean_revenues]
-        average_revenue = [x[1] for x in average_mean_revenues]
+        variable_labels = [x[0] for x in average_mean_revenues]
+        mean_revenues = [x[1] for x in average_mean_revenues]
 
-        # Create a bar plot using Plotly
-        data = go.Bar(x=categories, y=average_revenue)
+        # Create a DataFrame for the data
+        data = pd.DataFrame({'Variable': variable_labels, 'Mean Revenue': mean_revenues})
 
-        # Customize the plot
-        layout = go.Layout(
-            title='Average Mean Revenue by Industry Category',
-            xaxis=dict(title='Industry Category'),
-            yaxis=dict(title='Average Mean Revenue')
-        )
+        fig = px.bar(data, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
 
-        fig = go.Figure(data=data, layout=layout)
-
-        # Display the plot in Streamlit
+        # Display the graph in Streamlit
         st.plotly_chart(fig)
 
 
