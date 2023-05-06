@@ -5,6 +5,7 @@ import plotly.graph_objs as go
 import pickle
 import plotly.express as px
 import altair as alt
+import matplotlib.pyplot as plt
 
 data = pd.read_csv("updated_data.csv")
 
@@ -36,17 +37,21 @@ def run_website():
         x = filtered_data[x_column]
         y = filtered_data[y_column]
 
-        # Create the line chart
-        line, ax = plt.subplots()
-        ax.plot(x, y)
+        filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[y_column].notnull()) & (data[y_column] != 0)]
+
+        # Create a Streamlit app
+        st.title('Line Chart Example')
+
+        # Create the line chart using Plotly
+        line = px.line(filtered_data, x=x_column, y=y_column)
 
         # Set the chart title and axis labels
-        ax.set_title('Line Chart')
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
+        line.update_layout(title='Total funding vs Total revenue', xaxis_title='Funding', yaxis_title='Revenue')
 
         # Display the chart using Streamlit
-        st.pyplot(line)
+        st.plotly_chart(line)
+
+
 
         st.write("To be coded")
 
