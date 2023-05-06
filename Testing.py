@@ -631,18 +631,18 @@ def run_website():
         st.plotly_chart(fig)
 
         # Define the range of total funding to display in the bar chart
-        total_fund_min = st.sidebar.slider("Minimum Total Funding", 0, 600000000, 0, 1000000)
-        total_fund_max = st.sidebar.slider("Maximum Total Funding", 0, 600000000, 600000000, 1000000)
+            total_fund_min = st.sidebar.slider("Minimum Total Funding", 0, 600000000, 0, 1000000)
+            total_fund_max = st.sidebar.slider("Maximum Total Funding", 0, 600000000, 600000000, 1000000)
 
-        # Filter the data based on the selected range of total funding
-        filtered_data = filter_data(total_fund_min, total_fund_max)
+            # Filter the data based on the selected range of total funding
+            filtered_data = filter_data(total_fund_min, total_fund_max)
 
-        # Create a button to generate the bar chart
-        if st.button("Generate Bar Chart"):
-            # Generate the bar chart
-            bar_chart = generate_bar_chart(filtered_data)
-            # Display the bar chart
-            st.altair_chart(bar_chart, use_container_width=True)
+            # Create a button to generate the bar chart
+            if st.button("Generate Bar Chart"):
+                # Generate the bar chart
+                bar_chart = generate_bar_chart(filtered_data)
+                # Display the bar chart
+                st.altair_chart(bar_chart, use_container_width=True)
 
 
 
