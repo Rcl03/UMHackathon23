@@ -14,7 +14,7 @@ def run_website():
                             
                             ['Analytics Dashboard',
                              'Categorical ranking',
-                            'Predicting success probability',
+                            'Search',
                             'Company Profile'],
                             default_index=0)
         
@@ -167,107 +167,163 @@ def run_website():
 #         chart = create_chart(filtered_data)
 #         st.altair_chart(chart, use_container_width=True)
 
-    if(selected == 'Categorical ranking'):
+        if(selected == 'Categorical ranking'):
 
-            st.title('Categorical Ranking')
-            num_var_display = {
-                               'total_funding_c': 'Total Funding',
-                               'last_valuation_c': 'Last Valuation',
-                               'last_round_size_c': 'Last Funding Amount',
-                               'revenue_c': 'Latest Year Revenue',
-                               'revenue_growth(%)': 'Revenue Growth (%)',
-                               'EBIT_c': 'Earnings Before Interest and Tax',
-                               'employee_growth_6(%)': 'Employee Growth Past 6 Months (%)',
-                               'employee_growth_12(%)': 'Employee Growth Past 12 Months (%)',
-                               'num_founders': 'Number of Founders',
-                               'num_funding_rounds': 'Number of Funding Rounds',
-                               'num_shareholders': 'Number of Shareholders',
-                               'min_share': 'Minimum Share',
-                               'median_share': 'Median Share',
-                               'max_share': 'Maximum Share'}
-            num_feature = list(num_var_display.keys())
-            target_feature = st.selectbox('Select a target feature', list(num_var_display.keys()), format_func=lambda x: num_var_display[x])
+                st.title('Categorical Ranking')
+                num_var_display = {
+                                   'total_funding_c': 'Total Funding',
+                                   'last_valuation_c': 'Last Valuation',
+                                   'last_round_size_c': 'Last Funding Amount',
+                                   'revenue_c': 'Latest Year Revenue',
+                                   'revenue_growth(%)': 'Revenue Growth (%)',
+                                   'EBIT_c': 'Earnings Before Interest and Tax',
+                                   'employee_growth_6(%)': 'Employee Growth Past 6 Months (%)',
+                                   'employee_growth_12(%)': 'Employee Growth Past 12 Months (%)',
+                                   'num_founders': 'Number of Founders',
+                                   'num_funding_rounds': 'Number of Funding Rounds',
+                                   'num_shareholders': 'Number of Shareholders',
+                                   'min_share': 'Minimum Share',
+                                   'median_share': 'Median Share',
+                                   'max_share': 'Maximum Share'}
+                num_feature = list(num_var_display.keys())
+                target_feature = st.selectbox('Select a target feature', list(num_var_display.keys()), format_func=lambda x: num_var_display[x])
 
-            if(target_feature):
-                num_cat_var_display = {'name_c':'Company name',
-                                        'incorporated_date_c':'Incorporated Date',
-                                        'date_of_last_round':'Date of Last Round',
-                                        'fy_end':'Date of Financial Year End',
-                                        'total_funding_c': 'Total Funding',
-                                        'last_valuation_c': 'Last Valuation',
-                                        'last_round_size_c': 'Last Funding Amount',
-                                        'revenue_c': 'Latest Year Revenue',
-                                        'revenue_growth(%)': 'Revenue Growth (%)',
-                                        'EBIT_c': 'Earnings Before Interest and Tax',
-                                        'employee_growth_6(%)': 'Employee Growth Past 6 Months (%)',
-                                        'employee_growth_12(%)': 'Employee Growth Past 12 Months (%)',
-                                        'num_founders': 'Number of Founders',
-                                        'num_funding_rounds': 'Number of Funding Rounds',
-                                        'num_shareholders': 'Number of Shareholders',
-                                        'min_share': 'Minimum Share',
-                                        'median_share': 'Median Share',
-                                        'max_share': 'Maximum Share',
-                                        'category': 'Category'}
+                if(target_feature):
+                    num_cat_var_display = {'name_c':'Company name',
+                                            'incorporated_date_c':'Incorporated Date',
+                                            'date_of_last_round':'Date of Last Round',
+                                            'fy_end':'Date of Financial Year End',
+                                            'total_funding_c': 'Total Funding',
+                                            'last_valuation_c': 'Last Valuation',
+                                            'last_round_size_c': 'Last Funding Amount',
+                                            'revenue_c': 'Latest Year Revenue',
+                                            'revenue_growth(%)': 'Revenue Growth (%)',
+                                            'EBIT_c': 'Earnings Before Interest and Tax',
+                                            'employee_growth_6(%)': 'Employee Growth Past 6 Months (%)',
+                                            'employee_growth_12(%)': 'Employee Growth Past 12 Months (%)',
+                                            'num_founders': 'Number of Founders',
+                                            'num_funding_rounds': 'Number of Funding Rounds',
+                                            'num_shareholders': 'Number of Shareholders',
+                                            'min_share': 'Minimum Share',
+                                            'median_share': 'Median Share',
+                                            'max_share': 'Maximum Share',
+                                            'category': 'Category'}
 
-                corr_feature = st.multiselect('Select corresponding features', 
-                                    [feat for feat in num_cat_var_display.keys() if feat != target_feature], 
-                                    format_func=lambda x: num_cat_var_display[x])
-                if(corr_feature):
-                    # Only keep the selected features
-                    selected_features = [target_feature] + corr_feature
-                    selected_data = data[selected_features]
-
-                    sorted_top = selected_data.sort_values(target_feature, ascending=False)
-                    sorted_bottom = selected_data.sort_values(target_feature, ascending=True)
-
-                    # Get the top 10 and bottom 10 companies based on the selected feature
-                    top_10 = sorted_top.head(10)
-                    bottom_10 = sorted_bottom.head(10)
-
-                    # Only keep the target feature and corresponding feature columns
-                    top_10 = top_10[[target_feature] + corr_feature]
-                    bottom_10 = bottom_10[[target_feature] + corr_feature]
-
-                    # Rename columns to display friendly names
-                    top_10.rename(columns=num_cat_var_display, inplace=True)
-                    bottom_10.rename(columns=num_cat_var_display, inplace=True)
-
-                    # Display the data table only if corr_feature is not empty
-                    if len(corr_feature) > 0:
-                        st.write("Top 10")
-                        st.write(top_10)
-                        st.write("Bottom 10")
-                        st.write(bottom_10)
-
-                        fig = go.Figure()
-#                         fig.add_trace(go.Scatter(x=top_10[''], y=top_10[target_feature], mode='lines',name = 'Top10', line = dict(color = 'blue')))
-                        fig.add_trace(go.Scatter(x=top_10['column_name'], y=top_10[target_feature], mode='lines', name='Top10', line=dict(color='blue')))
-
-                        fig.add_trace(go.Scatter(x=bottom_10[f], y=bottom_10[target_feature], mode='lines',name = 'Bottom10', line = dict(color = 'blue')))
-
-                        fig.update_layout(title='Two Datasets in One Plot',
-                        xaxis_title=f,
-                        yaxis_title=target_feature)
-
-                        fig.show()
-
-
-                        for f in selected_features:
-                            b = go.Figure()
-                            b.add_trace(go.Scatter(x=top_10[f], y=top_10[target_feature], mode='lines',name = 'Top10', line = dict(color = 'blue')))
-                            b.add_trace(go.Scatter(x=bottom_10[f], y=bottom_10[target_feature], mode='lines',name = 'Bottom10', line = dict(color = 'red')))
-
-                            b.update_layout(title='Two Datasets in One Plot',
-                            xaxis_title=f,
-                            yaxis_title=target_feature)
-                            b.show()
+                    corr_feature = st.multiselect('Select corresponding features', 
+                                        [feat for feat in num_cat_var_display.keys() if feat != target_feature], 
+                                        format_func=lambda x: num_cat_var_display[x])
+                    if(corr_feature):
+                        # Only keep the selected features
+                        selected_features = [target_feature] + corr_feature
+                        selected_data = data[selected_features]
 
 
 
-    if(selected == 'Predicting success probability'):
+                        sorted_top = selected_data.sort_values(target_feature, ascending=False)
+                        sorted_bottom = selected_data.sort_values(target_feature, ascending=True)
 
-        st.title('Predicting success probability')
-        col1, col2, col3 = st.columns(3)
+                        # Get the top 10 and bottom 10 companies based on the selected feature
+                        top_10 = sorted_top.head(10)
+                        bottom_10 = sorted_bottom.head(10)
+
+                        # Only keep the target feature and corresponding feature columns
+                        top_10 = top_10[[target_feature] + corr_feature]
+                        bottom_10 = bottom_10[[target_feature] + corr_feature]
+
+                        # Rename columns to display friendly names
+                        top_10.rename(columns=num_cat_var_display, inplace=True)
+                        bottom_10.rename(columns=num_cat_var_display, inplace=True)
+
+                        # Display the data table only if corr_feature is not empty
+                        if len(corr_feature) > 0:
+                            st.write("Top 10")
+                            st.write(top_10)
+                            st.write("Bottom 10")
+                            st.write(bottom_10)
+
+
+
+    if(selected == 'Search'):
+
+# get unique values from grp_category columns
+        grp_categories = data.filter(regex='grp_category').values.ravel()
+        grp_categories = pd.unique([x for x in grp_categories if str(x) != 'nan'])
+
+        # Main category dropdown
+        main_categories = ['Technology', 'Finance', 'Health and Wellness', 'Retail and E-commerce', 'Education', 'Media and Entertainment', 'Travel and Hospitality', 'Marketing and Advertising', 'Human Resources', 'Real Estate and Property', 'Food and Beverage', 'Other']  # replace with your own categories
+        selected_main_category = st.selectbox('Select main category', main_categories)
+
+        # Detailed category dropdown
+        if selected_main_category == 'Technology':
+            detailed_categories = ['Information Technology', 'Software', 'Mobile Apps', 'Internet', 'Artificial Intelligence', 'Internet of Things', 'Web Development', 'Cloud', 'Automation', 'Big Data', 'Machine Learning', 'Robotics', 'Blockchain', 'Augmented Reality', 'Virtual Reality', 'Smart Home', 'Clean Energy', 'Sensor', 'Nanotechnology', 'Developer Apis']  # replace with your own categories
+            detailed_categories.append('All')
+        elif selected_main_category == 'Finance':
+            detailed_categories = ['Financial Services', 'Fintech', 'Payments', 'Insurance', 'Investment', 'Accounting', 'Lending', 'Personal Finance', 'Cryptocurrency', 'Invoice Trading', 'Wealth Management', 'Transaction Processing', 'Micro Lending']  # replace with your own categories
+            detailed_categories.append('All')
+        elif selected_main_category == 'Health and Wellness':
+            detailed_categories = ['Health Care', 'Healthtech', 'Medical Device', 'Fitness', 'Medical', 'Biotechnology', 'Nutrition', 'Dental', 'Pharmaceuticals', 'Personal Health', 'Home Health Care', 'Medtech', 'Elder Care']  # replace with your own categories
+            detailed_categories.append('All')
+        elif selected_main_category == 'Retail and E-commerce':
+            detailed_categories = ['E-Commerce', 'Marketplace', 'Retail', 'Fashion', 'Grocery', 'Shopping', 'Cosmetics', 'Gift', 'Catering', 'Wholesale', 'Subscription Service', 'Bakery', 'Alcohol', 'Mattress']
+            detailed_categories.append('All')
+        elif selected_main_category == 'Education':
+            detailed_categories = ['Education', 'E-Learning', 'EdTech', 'Training', 'Higher Education', 'Secondary Education', 'Tutoring']
+            detailed_categories.append('All')
+        elif selected_main_category == 'Media and Entertainment':
+            detailed_categories = ['Media & Entertainment', 'Music', 'TV', 'Broadcasting', 'Photography', 'Film Production', 'Content Creators']
+            detailed_categories.append('All')
+        elif selected_main_category == 'Travel and Hospitality':
+            detailed_categories = ['Travel', 'Tourism', 'Hospitality', 'Adventure Travel', 'Resorts', 'Co-Living', 'Fast-moving Consumer Goods (FMCG)', 'Tea', 'Air Transportation', 'Maritime']
+            detailed_categories.append('All')
+        elif selected_main_category == 'Marketing and Advertising':
+            detailed_categories = ['Marketing', 'Digital Marketing', 'Advertising', 'Content Marketing', 'Loyalty', 'Loyalty Programs', 'Payroll', 'Email Marketing', 'Influencers', 'Affiliate Marketing']
+            detailed_categories.append('All')
+        elif selected_main_category == 'Human Resources':
+            detailed_categories = ['Human Resources', 'Recruitment', 'Staffing Agency', 'Employment', 'Employee Benefits', 'Entrepreneur First', 'Professional Networking']
+            detailed_categories.append('All')
+        elif selected_main_category == 'Real Estate and Property':
+            detailed_categories = ['Real Estate', 'Property Management', 'PropTech', 'Construction', 'Home Renovation', 'Parking', 'Real Estate Investment', 'Smart Building']
+            detailed_categories.append('All')
+        elif selected_main_category == 'Food and Beverage':
+            detailed_categories = ['Food & Beverage (F&B)', 'Food Processing', 'Foodtech', 'Food Delivery', 'Coffee', 'Restaurants', 'Catering', 'Bakery', 'Alcohol', 'Hydroponics']
+            detailed_categories.append('All')
+        else:
+            detailed_categories = ['Other']
+            detailed_categories.append('All')
+
+        selected_detailed_category = st.selectbox('Select detailed category', detailed_categories)
+
+        # Filter data based on selected categories
+        if selected_detailed_category == 'All':
+            filtered_df = data[data['grp_category_0'].eq(selected_main_category) |
+                               data['grp_category_1'].eq(selected_main_category) |
+                               data['grp_category_2'].eq(selected_main_category) |
+                               data['grp_category_3'].eq(selected_main_category) |
+                               data['grp_category_4'].eq(selected_main_category) |
+                               data['grp_category_5'].eq(selected_main_category) |
+                               data['grp_category_6'].eq(selected_main_category) |
+                               data['grp_category_7'].eq(selected_main_category) |
+                               data['grp_category_8'].eq(selected_main_category)]
+        else:
+            filtered_df = data[
+                (data['grp_category_0'] == selected_main_category) & (
+                        (data['category_0'] == selected_detailed_category) |
+                        (data['category_1'] == selected_detailed_category) |
+                        (data['category_2'] == selected_detailed_category) |
+                        (data['category_3'] == selected_detailed_category) |
+                        (data['category_4'] == selected_detailed_category) |
+                        (data['category_5'] == selected_detailed_category) |
+                        (data['category_6'] == selected_detailed_category) |
+                        (data['category_7'] == selected_detailed_category) |
+                        (data['category_8'] == selected_detailed_category)
+                )]
+
+        # Display filtered data
+        # Drop columns 'grp_ctgry_0' to 'grp_ctgry_8'
+        data_filtered = filtered_df.drop(
+            columns=['grp_category_0', 'grp_category_1', 'grp_category_2', 'grp_category_3', 'grp_category_4', 'grp_category_5',
+                     'grp_category_6', 'grp_category_7', 'grp_category_8'])
+        st.write(data_filtered)
 
 
     if(selected == 'Company Profile'):
@@ -291,25 +347,43 @@ def run_website():
                 st.write("Categories: {}, {}, {}, {}, {}, {}, {}, {}".format(row[18], row[19], row[20], row[21], row[23], row[24], row[25], row[26]))
                 # Sample data
                 
-                x_data = ['Total Funding', 'Revenue', 'Ebit']  # Y-axis names
+                x_data1 = ['Total Funding', 'Revenue', 'Ebit']  # Y-axis names
                 # Use y-axis values as x-axis values
-                y_data = [row[8], row[10], row[11]] 
+                y_data1 = [row[2], row[5], row[9]] 
 
                 # Create bar trace for y-variable
-                trace = go.Bar(x=x_data, y=y_data,width=0.5)
+                trace1 = go.Bar(x=x_data1, y=y_data1,width=0.5)
 
                 # Create layout
-                layout = go.Layout(
+                layout1 = go.Layout(
                     title='"Total Funding","Revenue","EBIT',
                     xaxis=dict(title='Features'),
                     yaxis=dict(title='Amount')
                 )
                 
-                fig = go.Figure(data=[trace], layout=layout)
+                fig1 = go.Figure(data=[trace1], layout=layout1)
 
                 # Display the figure
-                st.plotly_chart(fig)
+                st.plotly_chart(fig1)
                
+                x_data2 = ['Revenue Growth', 'Employee Growth(6m)', 'Employee Growth (12m)']  # Y-axis names
+                # Use y-axis values as x-axis values
+                y_data2 = [row[8], row[10], row[11]] 
+
+                # Create bar trace for y-variable
+                trace1 = go.Bar(x=x_data2, y=y_data2,width=0.5)
+
+                # Create layout
+                layout2 = go.Layout(
+                    title='"Revenue Growth","Employee Growth(6m)","Employee Growth (12m)',
+                    xaxis=dict(title='Features'),
+                    yaxis=dict(title='Amount')
+                )
+                
+                fig1 = go.Figure(data=[trace2], layout=layout1)
+
+                # Display the figure
+                st.plotly_chart(fig2)
             count = count+1
 
 
