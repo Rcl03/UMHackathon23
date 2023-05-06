@@ -633,6 +633,80 @@ def run_website():
             filtered_data = filter_data(total_fund_min, total_fund_max)
             bar_chart = generate_bar_chart(filtered_data)
             st.altair_chart(bar_chart, use_container_width=True)
+        
+        # Create a search bar for company selection
+        selected_companies = st.multiselect('Select companies', data['name_c'])
+
+        # Filter the data for the selected companies
+        filtered_data = data[data['name_c'].isin(selected_companies)]
+
+        # Check if any companies are selected
+        if len(filtered_data) == 0:
+            st.write('No companies selected.')
+        else:
+            # Set up the figure and axes
+            fig, ax = plt.subplots(figsize=(10, 6))
+
+            # Iterate over selected companies and plot employee growth versus EBIT
+            for company in selected_companies:
+                company_data = filtered_data[filtered_data['name_c'] == company]
+                x_values = company_data['EBIT_c'] / 1000 + np.random.uniform(-200, 200, len(company_data))
+                y_values = company_data['employee_growth_12(%)'] + np.random.uniform(-1, 1, len(company_data))
+                ax.scatter(x=x_values, y=y_values, label=company)
+
+            # Set the axis labels
+            ax.set_xlabel('EBIT (Earnings before Interest and Tax) / 1000')
+            ax.set_ylabel('Employee Growth (%)')
+
+            # Set the x-axis range
+            min_ebit = filtered_data['EBIT_c'].min() / 1000
+            max_ebit = filtered_data['EBIT_c'].max() / 1000
+            ax.set_xlim(min_ebit, max_ebit)
+
+            # Adjust the x-axis label
+            ax.set_xlabel('EBIT (Earnings before Interest and Tax) / 1000')
+
+            # Set the title and legend
+            plt.title('Employee Growth vs EBIT Comparison')
+            plt.legend()
+
+            # Automatically adjust the axis limits to fit the plotted data
+            plt.autoscale()
+
+            # Display the graph using Streamlit
+            st.pyplot(fig)
+
+            # Add additional information
+            st.write("<h3 style='font-size: 16px; margin-bottom: 10px;'>Additional Information:</h3>",
+                     unsafe_allow_html=True)
+            st.write("<p style='font-size: 14px; margin-bottom: 3px;'>- Positive Trend:</p>", unsafe_allow_html=True)
+            st.write("<ul style='font-size: 12px; margin-top: 0; margin-bottom: 10px;'>", unsafe_allow_html=True)
+            st.write(
+                "<li style='font-size: 12px; margin-bottom: 5px;'>Growing employee base indicates business expansion and increased productivity.</li>",
+                unsafe_allow_html=True)
+            st.write(
+                "<li style='font-size: 12px; margin-bottom: 5px;'>Positive employee growth signifies a thriving and promising company.</li>",
+                unsafe_allow_html=True)
+            st.write(
+                "<li style='font-size: 12px; margin-bottom: 5px;'>Investors view it as a positive signal for long-term success.</li>",
+                unsafe_allow_html=True)
+            st.write("</ul>", unsafe_allow_html=True)
+
+            st.write("<p style='font-size: 14px; margin-bottom: 3px;'>- Negative Trend:</p>", unsafe_allow_html=True)
+            st.write("<ul style='font-size: 12px; margin-top: 0;'>", unsafe_allow_html=True)
+            st.write(
+                "<li style='font-size: 12px; margin-bottom: 5px;'>Declining employee count raises concerns about company stability.</li>",
+                unsafe_allow_html=True)
+            st.write(
+                "<li style='font-size: 12px; margin-bottom: 5px;'>It suggests challenges in attracting and retaining talent.</li>",
+                unsafe_allow_html=True)
+            st.write(
+                "<li style='font-size: 12px; margin-bottom: 5px;'>Negative employee growth may indicate potential financial and operational difficulties.</li>",
+                unsafe_allow_html=True)
+            st.write(
+                "<li style='font-size: 12px; margin-bottom: 0;'>Further analysis is required before considering investment.</li>",
+                unsafe_allow_html=True)
+            st.write("</ul>", unsafe_allow_html=True)
             
                
                    
