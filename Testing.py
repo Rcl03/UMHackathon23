@@ -761,8 +761,50 @@ def run_website():
 
     if(selected == 'Categorical ranking'):
 
-                st.title('Categorical Ranking')
-                num_var_display = {
+        # Sort the dataframe by success probability in descending order
+        df_sorted = data.sort_values(by='revenue_growth(%)', ascending=False)
+
+        # Set the page title
+        st.title('Revenue Growth Ranking (%)')
+
+        # Display the top 10 companies
+        st.header('Top 10 Companies')
+
+        # Iterate over the top 10 rows and display the rank, company name, and success probability
+        for rank, (index, row) in enumerate(df_sorted.head(10).iterrows(), 1):
+            company_name = row['name_c']
+            revenue_growth = row['revenue_growth(%)']
+
+            # Format the Markdown string with different font sizes and inline success probability
+            st.markdown(f"<h3 style='font-size:24px;'>Top {rank}</h3>", unsafe_allow_html=True)
+            st.markdown(f"<p style='font-size:20px; font-weight:bold;'>{company_name}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='font-size:18px;'>Revenue Growth: {revenue_growth}%</p>", unsafe_allow_html=True)
+
+        st.title('Categorical Ranking')
+        num_var_display = {
+            'total_funding_c': 'Total Funding',
+            'last_valuation_c': 'Last Valuation',
+            'last_round_size_c': 'Last Funding Amount',
+            'revenue_c': 'Latest Year Revenue',
+            'revenue_growth(%)': 'Revenue Growth (%)',
+            'EBIT_c': 'Earnings Before Interest and Tax',
+            'employee_growth_6(%)': 'Employee Growth Past 6 Months (%)',
+            'employee_growth_12(%)': 'Employee Growth Past 12 Months (%)',
+            'num_founders': 'Number of Founders',
+            'num_funding_rounds': 'Number of Funding Rounds',
+            'num_shareholders': 'Number of Shareholders',
+            'min_share': 'Minimum Share',
+            'median_share': 'Median Share',
+            'max_share': 'Maximum Share'}
+        num_feature = list(num_var_display.keys())
+        target_feature = st.selectbox('Select a target feature', list(num_var_display.keys()),
+                                      format_func=lambda x: num_var_display[x])
+
+        if (target_feature):
+            num_cat_var_display = {'name_c': 'Company name',
+                                   'incorporated_date_c': 'Incorporated Date',
+                                   'date_of_last_round': 'Date of Last Round',
+                                   'fy_end': 'Date of Financial Year End',
                                    'total_funding_c': 'Total Funding',
                                    'last_valuation_c': 'Last Valuation',
                                    'last_round_size_c': 'Last Funding Amount',
@@ -776,62 +818,32 @@ def run_website():
                                    'num_shareholders': 'Number of Shareholders',
                                    'min_share': 'Minimum Share',
                                    'median_share': 'Median Share',
-                                   'max_share': 'Maximum Share'}
-                num_feature = list(num_var_display.keys())
-                target_feature = st.selectbox('Select a target feature', list(num_var_display.keys()), format_func=lambda x: num_var_display[x])
+                                   'max_share': 'Maximum Share',
+                                   'category': 'Category'}
 
-                if(target_feature):
-                    num_cat_var_display = {'name_c':'Company name',
-                                            'incorporated_date_c':'Incorporated Date',
-                                            'date_of_last_round':'Date of Last Round',
-                                            'fy_end':'Date of Financial Year End',
-                                            'total_funding_c': 'Total Funding',
-                                            'last_valuation_c': 'Last Valuation',
-                                            'last_round_size_c': 'Last Funding Amount',
-                                            'revenue_c': 'Latest Year Revenue',
-                                            'revenue_growth(%)': 'Revenue Growth (%)',
-                                            'EBIT_c': 'Earnings Before Interest and Tax',
-                                            'employee_growth_6(%)': 'Employee Growth Past 6 Months (%)',
-                                            'employee_growth_12(%)': 'Employee Growth Past 12 Months (%)',
-                                            'num_founders': 'Number of Founders',
-                                            'num_funding_rounds': 'Number of Funding Rounds',
-                                            'num_shareholders': 'Number of Shareholders',
-                                            'min_share': 'Minimum Share',
-                                            'median_share': 'Median Share',
-                                            'max_share': 'Maximum Share',
-                                            'category': 'Category'}
+            corr_feature = st.multiselect('Select corresponding features',
+                                          [feat for feat in num_cat_var_display.keys() if feat != target_feature],
+                                          format_func=lambda x: num_cat_var_display[x])
+            if (corr_feature):
+                # Only keep the selected features
+                selected_features = [target_feature] + corr_feature
+                selected_data = data[selected_features]
 
-                    corr_feature = st.multiselect('Select corresponding features', 
-                                        [feat for feat in num_cat_var_display.keys() if feat != target_feature], 
-                                        format_func=lambda x: num_cat_var_display[x])
-                    if(corr_feature):
-                        # Only keep the selected features
-                        selected_features = [target_feature] + corr_feature
-                        selected_data = data[selected_features]
+                sorted_top = selected_data.sort_values(target_feature, ascending=False)
 
+                # Get the top 10 and bottom 10 companies based on the selected feature
+                top_10 = sorted_top.head(10)
 
+                # Only keep the target feature and corresponding feature columns
+                top_10 = top_10[[target_feature] + corr_feature]
 
-                        sorted_top = selected_data.sort_values(target_feature, ascending=False)
-                        sorted_bottom = selected_data.sort_values(target_feature, ascending=True)
+                # Rename columns to display friendly names
+                top_10.rename(columns=num_cat_var_display, inplace=True)
 
-                        # Get the top 10 and bottom 10 companies based on the selected feature
-                        top_10 = sorted_top.head(10)
-                        bottom_10 = sorted_bottom.head(10)
-
-                        # Only keep the target feature and corresponding feature columns
-                        top_10 = top_10[[target_feature] + corr_feature]
-                        bottom_10 = bottom_10[[target_feature] + corr_feature]
-
-                        # Rename columns to display friendly names
-                        top_10.rename(columns=num_cat_var_display, inplace=True)
-                        bottom_10.rename(columns=num_cat_var_display, inplace=True)
-
-                        # Display the data table only if corr_feature is not empty
-                        if len(corr_feature) > 0:
-                            st.write("Top 10")
-                            st.write(top_10)
-                            st.write("Bottom 10")
-                            st.write(bottom_10)
+                # Display the data table only if corr_feature is not empty
+                if len(corr_feature) > 0:
+                    st.write("Top 10")
+                    st.write(top_10)
 
     if(selected == 'Search'):
         
