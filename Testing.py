@@ -39,7 +39,7 @@ def run_website():
 
         # Display the selected chart
         if selected_option == 'Chart 1':
-                    variables = [
+            variables = [
                 'Information Technology', 'Software', 'Mobile Apps', 'Internet',
                 'Artificial Intelligence (AI)', 'Internet of Things (IoT)', 'Web Development',
                 'Cloud', 'Automation', 'Big Data', 'Machine Learning', 'Robotics',
