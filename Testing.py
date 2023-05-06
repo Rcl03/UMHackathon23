@@ -25,13 +25,42 @@ def run_website():
         
 
         # Define the options for the selectbox
-        options = ['Chart 1', 'Chart 2']
+        options = ['overall', 'Technology']
 
         # Get the user's selection
         selected_option = st.selectbox('Select a chart', options)
 
         # Display the selected chart
-        if selected_option == 'Chart 1':
+        if selected_option == 'Overall':
+            industry_categories = ['Technology', 'Finance', 'Health and Wellness', 'Retail and E-commerce', 'Education',
+                                   'Media and Entertainment', 'Travel and Hospitality', 'Marketing and Advertising',
+                                   'Human Resources', 'Real Estate and Property', 'Food and Beverage', 'Others']
+
+            # Calculate the average revenue growth rate for each industry category
+            average_revenue_growth = {}
+
+            for category in industry_categories:
+                category_df = data[data[category] == 1]
+                average_growth = category_df['revenue_growth(%)'].mean()
+                average_revenue_growth[category] = average_growth
+
+            # Create a Bar object
+            bar = go.Bar(x=list(average_revenue_growth.keys()), y=list(average_revenue_growth.values()))
+
+            # Set the layout
+            layout = go.Layout(title='Average Revenue Growth Rate by Industry Category',
+                               xaxis=dict(title='Industry Category'),
+                               yaxis=dict(title='Average Revenue Growth Rate (%)'),
+                               height=500)
+
+            # Create a Figure object
+            fig = go.Figure(data=[bar], layout=layout)
+
+            # Display the graph in Streamlit
+            st.plotly_chart(fig)
+
+        if selected_option == 'Technology':
+            
             variables = [
                 'Information Technology', 'Software', 'Mobile Apps', 'Internet',
                 'Artificial Intelligence (AI)', 'Internet of Things (IoT)', 'Web Development',
@@ -68,33 +97,8 @@ def run_website():
 
             # Display the graph in Streamlit
             st.plotly_chart(fig)
+            
         else:
-            industry_categories = ['Technology', 'Finance', 'Health and Wellness', 'Retail and E-commerce', 'Education',
-                                   'Media and Entertainment', 'Travel and Hospitality', 'Marketing and Advertising',
-                                   'Human Resources', 'Real Estate and Property', 'Food and Beverage', 'Others']
-
-            # Calculate the average revenue growth rate for each industry category
-            average_revenue_growth = {}
-
-            for category in industry_categories:
-                category_df = data[data[category] == 1]
-                average_growth = category_df['revenue_growth(%)'].mean()
-                average_revenue_growth[category] = average_growth
-
-            # Create a Bar object
-            bar = go.Bar(x=list(average_revenue_growth.keys()), y=list(average_revenue_growth.values()))
-
-            # Set the layout
-            layout = go.Layout(title='Average Revenue Growth Rate by Industry Category',
-                               xaxis=dict(title='Industry Category'),
-                               yaxis=dict(title='Average Revenue Growth Rate (%)'),
-                               height=500)
-
-            # Create a Figure object
-            fig = go.Figure(data=[bar], layout=layout)
-
-            # Display the graph in Streamlit
-            st.plotly_chart(fig)
 
         # Create a Streamlit app
         st.title('Total funding vs Total revenue')
