@@ -22,136 +22,155 @@ def run_website():
         
         
     if(selected == 'Analytics Dashboard'):
+
+        data1 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [5, 3, 2, 4, 1]})
+        data2 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [3, 1, 4, 2, 5]})
+
+        # Create different charts using Altair
+        chart1 = alt.Chart(data1).mark_line().encode(x='x', y='y')
+        chart2 = alt.Chart(data2).mark_bar().encode(x='x', y='y')
+
+        # Define the options for the selectbox
+        options = ['Chart 1', 'Chart 2']
+
+        # Get the user's selection
+        selected_option = st.selectbox('Select a chart', options)
+
+        # Display the selected chart
+        if selected_option == 'Chart 1':
+            st.altair_chart(chart1, use_container_width=True)
+        else:
+            st.altair_chart(chart2, use_container_width=True)
         
-        x_column = 'total_funding_c'
+#         x_column = 'total_funding_c'
 
-        # Specify the column name for y-axis values
-        y_column = 'revenue_c'
+#         # Specify the column name for y-axis values
+#         y_column = 'revenue_c'
 
-        # Filter the data to exclude null or zero values
-        filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[y_column].notnull()) & (data[y_column] != 0)]
+#         # Filter the data to exclude null or zero values
+#         filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[y_column].notnull()) & (data[y_column] != 0)]
 
-        # Create a Streamlit app
-        st.title('Total funding vs Total revenue')
+#         # Create a Streamlit app
+#         st.title('Total funding vs Total revenue')
 
-        # Extract the x and y values from the filtered data
-        x = filtered_data[x_column]
-        y = filtered_data[y_column]
+#         # Extract the x and y values from the filtered data
+#         x = filtered_data[x_column]
+#         y = filtered_data[y_column]
 
-        filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[x_column] != 1) & (data[y_column].notnull()) & (data[y_column] != 0) & (data[y_column] != 1)]
+#         filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[x_column] != 1) & (data[y_column].notnull()) & (data[y_column] != 0) & (data[y_column] != 1)]
 
-        # Create a Streamlit app
-        st.title('Visualization')
+#         # Create a Streamlit app
+#         st.title('Visualization')
 
-        # Create the line chart using Plotly
-        sc = px.scatter(filtered_data, x=x_column, y=y_column)
+#         # Create the line chart using Plotly
+#         sc = px.scatter(filtered_data, x=x_column, y=y_column)
 
-        # Set the chart title and axis labels
-        sc.update_layout(title='Total funding vs Total revenue', xaxis_title='Funding', yaxis_title='Revenue')
+#         # Set the chart title and axis labels
+#         sc.update_layout(title='Total funding vs Total revenue', xaxis_title='Funding', yaxis_title='Revenue')
 
-        # Display the chart using Streamlit
-        st.plotly_chart(sc)
+#         # Display the chart using Streamlit
+#         st.plotly_chart(sc)
 
-        fig = go.Figure(data=go.Scatter(x=data["incorporated_date_c"], y=data["revenue_c"], mode='markers'))
-        # Add axis labels and title
-        fig.update_layout(xaxis_title="Incorporation Date", yaxis_title="Total Revenue", title="Revenue over time")
+#         fig = go.Figure(data=go.Scatter(x=data["incorporated_date_c"], y=data["revenue_c"], mode='markers'))
+#         # Add axis labels and title
+#         fig.update_layout(xaxis_title="Incorporation Date", yaxis_title="Total Revenue", title="Revenue over time")
 
-        # Show plot
-        st.plotly_chart(fig)
+#         # Show plot
+#         st.plotly_chart(fig)
         
-        # Create button to filter data
-        button = st.button('Employee Growth (12 months)')
+#         # Create button to filter data
+#         button = st.button('Employee Growth (12 months)')
         
-        # Create a container to hold the button and the plot
-        container = st.container()
+#         # Create a container to hold the button and the plot
+#         container = st.container()
 
-        fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_6(%)"], mode='markers'))
-        # Add axis labels and title
-        fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_6(%)", title="Revenue Growth vs Employee Growth (6 months)")
+#         fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_6(%)"], mode='markers'))
+#         # Add axis labels and title
+#         fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_6(%)", title="Revenue Growth vs Employee Growth (6 months)")
 
-        # Show plot
-        st.plotly_chart(fig)
+#         # Show plot
+#         st.plotly_chart(fig)
 
-        # If button is clicked, filter data and show the filtered scatter plot
-        if button:
-            fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_12(%)"], mode='markers'))
+#         # If button is clicked, filter data and show the filtered scatter plot
+#         if button:
+#             fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_12(%)"], mode='markers'))
             
-            # Add axis labels and title
-            fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_12(%)", title="Revenue Growth vs Employee Growth (12 months)")
+#             # Add axis labels and title
+#             fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_12(%)", title="Revenue Growth vs Employee Growth (12 months)")
 
-            # Show plot
-            st.plotly_chart(fig)
+#             # Show plot
+#             st.plotly_chart(fig)
 
 
-        # Create a slider to select the year
-        year = st.slider("Select year", min_value=int(data["incorporated_date_c"].min()), max_value=int(data["incorporated_date_c"].max()))
+#         # Create a slider to select the year
+#         year = st.slider("Select year", min_value=int(data["incorporated_date_c"].min()), max_value=int(data["incorporated_date_c"].max()))
 
-        # Filter the data based on the selected year
-        data_filtered = data[data["incorporated_date_c"] == year]
+#         # Filter the data based on the selected year
+#         data_filtered = data[data["incorporated_date_c"] == year]
 
-        # Create the plot using Plotly Express
-        fig = px.scatter(data_filtered, x="incorporated_date_c", y="total_funding_c")
+#         # Create the plot using Plotly Express
+#         fig = px.scatter(data_filtered, x="incorporated_date_c", y="total_funding_c")
         
-        # Set the title of the chart
-        fig.update_layout(title='Incoporate Date vs Total funding')
+#         # Set the title of the chart
+#         fig.update_layout(title='Incoporate Date vs Total funding')
 
-        # Display the plot
-        st.plotly_chart(fig)
+#         # Display the plot
+#         st.plotly_chart(fig)
 
 
-        scatter_plot = alt.Chart(data).mark_circle().encode(
-            x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
-            y=alt.Y('last_valuation_c', title='Last Valuation'),
-            color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
-        )
+#         scatter_plot = alt.Chart(data).mark_circle().encode(
+#             x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
+#             y=alt.Y('last_valuation_c', title='Last Valuation'),
+#             color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
+#         )
 
-        # Create button to filter data
-        button_clicked = st.button('Filter data')
+#         # Create button to filter data
+#         button_clicked = st.button('Filter data')
 
-        # Create a container to hold the button and the plot
-        container = st.container()
+#         # Create a container to hold the button and the plot
+#         container = st.container()
 
-        # If button is clicked, filter data and show the filtered scatter plot
-        if button_clicked:
-            data_filtered = data[data["num_funding_rounds"] > 5]
-            filtered_scatter_plot = alt.Chart(data_filtered).mark_circle().encode(
-                x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
-                y=alt.Y('last_valuation_c', title='Last Valuation'),
-                color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
-            )
-            container.altair_chart(filtered_scatter_plot, use_container_width=True)
+#         # If button is clicked, filter data and show the filtered scatter plot
+#         if button_clicked:
+#             data_filtered = data[data["num_funding_rounds"] > 5]
+#             filtered_scatter_plot = alt.Chart(data_filtered).mark_circle().encode(
+#                 x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
+#                 y=alt.Y('last_valuation_c', title='Last Valuation'),
+#                 color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
+#             )
+#             container.altair_chart(filtered_scatter_plot, use_container_width=True)
 
-        # Show the initial scatter plot
-        container.altair_chart(scatter_plot, use_container_width=True)
+#         # Show the initial scatter plot
+#         container.altair_chart(scatter_plot, use_container_width=True)
 
-        # Create a function to filter the data based on the selected range of total funding
-        def filter_data(total_fund_min, total_fund_max):
-            return data[(data['total_funding_c'] >= total_fund_min) & (data['total_funding_c'] <= total_fund_max)]
+#         # Create a function to filter the data based on the selected range of total funding
+#         def filter_data(total_fund_min, total_fund_max):
+#             return data[(data['total_funding_c'] >= total_fund_min) & (data['total_funding_c'] <= total_fund_max)]
 
-        # Create a function to generate the interactive bar chart
-        def generate_bar_chart(df):
-            chart = alt.Chart(df).mark_bar().encode(
-                x='total_funding_c',
-                y='employee_growth_6(%)'
-            ).properties(
-                width=800,
-                height=400
-            )
-            return chart
+#         # Create a function to generate the interactive bar chart
+#         def generate_bar_chart(df):
+#             chart = alt.Chart(df).mark_bar().encode(
+#                 x='total_funding_c',
+#                 y='employee_growth_6(%)'
+#             ).properties(
+#                 width=800,
+#                 height=400
+#             )
+#             return chart
 
-        # Define the range of total funding to display in the bar chart
-        total_fund_min = st.sidebar.slider("Minimum Total Funding", 0, 600000000, 0, 1000000)
-        total_fund_max = st.sidebar.slider("Maximum Total Funding", 0, 600000000, 600000000, 1000000)
+#         # Define the range of total funding to display in the bar chart
+#         total_fund_min = st.sidebar.slider("Minimum Total Funding", 0, 600000000, 0, 1000000)
+#         total_fund_max = st.sidebar.slider("Maximum Total Funding", 0, 600000000, 600000000, 1000000)
 
-        # Filter the data based on the selected range of total funding
-        filtered_data = filter_data(total_fund_min, total_fund_max)
+#         # Filter the data based on the selected range of total funding
+#         filtered_data = filter_data(total_fund_min, total_fund_max)
 
-        # Create a button to generate the bar chart
-        if st.button("Generate Bar Chart"):
-            # Generate the bar chart
-            bar_chart = generate_bar_chart(filtered_data)
-            # Display the bar chart
-            st.altair_chart(bar_chart, use_container_width=True)
+#         # Create a button to generate the bar chart
+#         if st.button("Generate Bar Chart"):
+#             # Generate the bar chart
+#             bar_chart = generate_bar_chart(filtered_data)
+#             # Display the bar chart
+#             st.altair_chart(bar_chart, use_container_width=True)
 
 
 
@@ -370,7 +389,7 @@ def run_website():
                 st.write("Minimum share in %: ", row[15])
                 st.write("Median share in %: ", row[16])
                 st.write("Maximum share in %: ", row[17])
-                st.write("Categories: {}, {}, {}, {}, {}, {}, {}, {}".format(row[18], row[19], row[20], row[21], row[23], row[24], row[25], row[26]))
+                st.write("Categories: ", row[18])
                 # Sample data
                 
                 x_data1 = ['Total Funding', 'Revenue', 'Ebit']  # X-axis names
