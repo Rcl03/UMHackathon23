@@ -618,29 +618,32 @@ def run_website():
         # Display the plot
         st.plotly_chart(fig)
 
-        def filter_data(total_fund_min, total_fund_max):
-            return data[(data['total_funding_c'] >= total_fund_min) & (data['total_funding_c'] <= total_fund_max)]
+        def filter_data(min_value, max_value):
+            filtered_data = data[(data["total_funding_c"] >= min_value) & (data["total_funding_c"] <= max_value)]
+            return filtered_data
 
-        # Create a function to generate the interactive bar chart
-        def generate_bar_chart(df):
-            chart = alt.Chart(df).mark_bar().encode(
-                x='total_funding_c',
-                y='employee_growth_6(%)'
+        def generate_bar_chart(data):
+            chart = alt.Chart(data).mark_bar().encode(
+                x="incorporated_date_c",
+                y="revenue_growth(%)",
+                tooltip=["incorporated_date_c", "revenue_growth(%)"]
             ).properties(
-                width=800,
+                title="Employee Growth and Revenue Growth",
+                width=600,
                 height=400
             )
             return chart
-        # Define the range of total funding to display in the bar char
+
+        # Sidebar sliders for filtering total funding
         total_fund_min = st.slider("Minimum Total Funding", 0, 600000000, 0, 1000000)
         total_fund_max = st.slider("Maximum Total Funding", 0, 600000000, 600000000, 1000000)
-        
-        filtered_data = filter_data(total_fund_min, total_fund_max)
-        
+
+        # Button to generate the bar chart
         if st.button("Generate Bar Chart"):
+            filtered_data = filter_data(total_fund_min, total_fund_max)
             bar_chart = generate_bar_chart(filtered_data)
-               
             st.altair_chart(bar_chart, use_container_width=True)
+            
                
                    
 
