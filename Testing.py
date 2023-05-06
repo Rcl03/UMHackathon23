@@ -637,10 +637,11 @@ def run_website():
         filtered_data = filter_data(total_fund_min, total_fund_max)
         
         if st.button("Generate Bar Chart"):
-                # Generate the bar chart
-                bar_chart = generate_bar_chart(filtered_data)
-                # Display the bar chart
-                st.altair_chart(bar_chart, use_container_width=True)   
+            bar_chart = generate_bar_chart(filtered_data)
+               
+            st.altair_chart(bar_chart, use_container_width=True)
+               
+                   
 
             # Filter the data based on the selected range of total funding
           
