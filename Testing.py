@@ -39,16 +39,16 @@ def run_website():
         filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[y_column].notnull()) & (data[y_column] != 0)]
 
         # Create a Streamlit app
-        st.title('Line Chart Example')
+        st.title('Visualization')
 
         # Create the line chart using Plotly
-        line = px.line(filtered_data, x=x_column, y=y_column)
+        sc = px.scatter(filtered_data, x=x_column, y=y_column)
 
         # Set the chart title and axis labels
-        line.update_layout(title='Total funding vs Total revenue', xaxis_title='Funding', yaxis_title='Revenue')
+        sc.update_layout(title='Total funding vs Total revenue', xaxis_title='Funding', yaxis_title='Revenue')
 
         # Display the chart using Streamlit
-        st.plotly_chart(line)
+        st.plotly_chart(sc)
 
 
 
