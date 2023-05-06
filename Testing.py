@@ -290,13 +290,13 @@ def run_website():
                 st.write("Maximum share in %: ", row[17])
                 st.write("Categories: {}, {}, {}, {}, {}, {}, {}, {}".format(row[18], row[19], row[20], row[21], row[23], row[24], row[25], row[26]))
                 # Sample data
-                x_data = [row[8], row[10], row[11]]  # Y-axis values
-                x_names = ['Total Funding', 'Revenue', 'Ebit']  # Y-axis names
+                
+                x_data = ['Total Funding', 'Revenue', 'Ebit']  # Y-axis names
                 # Use y-axis values as x-axis values
-                y_data = x_data
+                y_data = [row[8], row[10], row[11]] 
 
                 # Create bar trace for y-variable
-                trace = go.Bar(x=x_data, y=y_data, text=x_names)
+                trace = go.Bar(x=x_data, y=y_data,)
 
                 # Create layout
                 layout = go.Layout(
