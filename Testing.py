@@ -23,47 +23,68 @@ def run_website():
         
     if(selected == 'Analytics Dashboard'):
         
+        # Create a DataFrame
+        data1 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [5, 3, 2, 4, 1]})
+        data2 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [3, 1, 4, 2, 5]})
+
+        # Create different charts using Altair
+        chart1 = alt.Chart(data1).mark_line().encode(x='x', y='y')
+        chart2 = alt.Chart(data2).mark_bar().encode(x='x', y='y')
+
+        # Define the options for the selectbox
+        options = ['Chart 1', 'Chart 2']
+
+        # Get the user's selection
+        selected_option = st.selectbox('Select a chart', options)
+
+        # Display the selected chart
+        if selected_option == 'Chart 1':
+                    variables = [
+                'Information Technology', 'Software', 'Mobile Apps', 'Internet',
+                'Artificial Intelligence (AI)', 'Internet of Things (IoT)', 'Web Development',
+                'Cloud', 'Automation', 'Big Data', 'Machine Learning', 'Robotics',
+                'Blockchain', 'Augmented Reality (Ar)', 'Virtual Reality (VR)', 'Smart Home',
+                'Clean Energy', 'Sensor', 'Nanotechnology', 'Developer Apis'
+            ]
+
+            categories = [
+                'category_0', 'category_1', 'category_2', 'category_3',
+                'category_4', 'category_5', 'category_6', 'category_7',
+                'category_8'
+            ]
+
+            average_mean_revenues = []
+
+            # Loop through each variable
+            for variable in variables:
+                # Select rows where the variable is present in any of the category columns
+                variable_companies = data[data[categories].apply(lambda x: variable in x.values, axis=1)]
+
+                # Calculate the average mean revenue for the variable
+                average_mean_revenue = variable_companies['revenue_c'].mean()
+                average_mean_revenues.append((variable, average_mean_revenue))
+
+
+            # Extract the categories and average revenues for plotting
+            variable_labels = [x[0] for x in average_mean_revenues]
+            mean_revenues = [x[1] for x in average_mean_revenues]
+
+            # Create a DataFrame for the data
+            data1 = pd.DataFrame({'Variable': variable_labels, 'Mean Revenue': mean_revenues})
+
+            fig = px.bar(data1, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
+
+            # Display the graph in Streamlit
+            st.plotly_chart(fig)
+        else:
+            st.altair_chart(chart2, use_container_width=True)
+
+        
         # Create a Streamlit app
         st.title('Total funding vs Total revenue')
        
         # Assuming your dataset is stored in a DataFrame called 'df'
-        variables = [
-            'Information Technology', 'Software', 'Mobile Apps', 'Internet',
-            'Artificial Intelligence (AI)', 'Internet of Things (IoT)', 'Web Development',
-            'Cloud', 'Automation', 'Big Data', 'Machine Learning', 'Robotics',
-            'Blockchain', 'Augmented Reality (Ar)', 'Virtual Reality (VR)', 'Smart Home',
-            'Clean Energy', 'Sensor', 'Nanotechnology', 'Developer Apis'
-        ]
 
-        categories = [
-            'category_0', 'category_1', 'category_2', 'category_3',
-            'category_4', 'category_5', 'category_6', 'category_7',
-            'category_8'
-        ]
-
-        average_mean_revenues = []
-
-        # Loop through each variable
-        for variable in variables:
-            # Select rows where the variable is present in any of the category columns
-            variable_companies = data[data[categories].apply(lambda x: variable in x.values, axis=1)]
-
-            # Calculate the average mean revenue for the variable
-            average_mean_revenue = variable_companies['revenue_c'].mean()
-            average_mean_revenues.append((variable, average_mean_revenue))
-
-
-        # Extract the categories and average revenues for plotting
-        variable_labels = [x[0] for x in average_mean_revenues]
-        mean_revenues = [x[1] for x in average_mean_revenues]
-
-        # Create a DataFrame for the data
-        data1 = pd.DataFrame({'Variable': variable_labels, 'Mean Revenue': mean_revenues})
-
-        fig = px.bar(data1, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
-
-        # Display the graph in Streamlit
-        st.plotly_chart(fig)
 
 
         
