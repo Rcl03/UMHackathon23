@@ -117,11 +117,11 @@ def run_website():
                 # Loop through each variable
                for variable in variables:
                     # Select rows where the variable is present in any of the category columns
-                    variable_companies = data[data[categories].apply(lambda x: variable in x.values, axis=1)]
+                   variable_companies = data[data[categories].apply(lambda x: variable in x.values, axis=1)]
 
                     # Calculate the average mean revenue for the variable
-                    average_mean_revenue = variable_companies['revenue_c'].mean()
-                    average_mean_revenues.append((variable, average_mean_revenue))
+                   average_mean_revenue = variable_companies['revenue_c'].mean()
+                   average_mean_revenues.append((variable, average_mean_revenue))
 
 
                 # Extract the categories and average revenues for plotting
