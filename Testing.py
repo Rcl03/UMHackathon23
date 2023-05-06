@@ -271,7 +271,7 @@ def run_website():
             fig = px.bar(data1, x='Education', y='Mean Revenue', title='Average Mean Education')
 
             # Display the graph in Streamlit
-            st.plotly_chart(fig)]
+            st.plotly_chart(fig)
             
         if selected_option == 'Media and Entertainment':
             
