@@ -296,13 +296,13 @@ def run_website():
                 x_data = y_data
 
                 # Create bar trace for y-variable
-                trace = go.Bar(x=x_data, y=y_data)
+                trace = go.Bar(x=x_data, y=y_data, text=y_names)
 
                 # Create layout
                 layout = go.Layout(
                     title='"Total Funding","Revenue","EBIT',
-                    xaxis=dict(title='X-Axis'),
-                    yaxis=dict(title='Y-Axis')
+                    xaxis=dict(title='Amount'),
+                    yaxis=dict(title='Features')
                 )
                 
                 fig = go.Figure(data=[trace], layout=layout)
