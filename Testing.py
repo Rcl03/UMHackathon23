@@ -23,24 +23,54 @@ def run_website():
         
     if(selected == 'Analytics Dashboard'):
 
-        data1 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [5, 3, 2, 4, 1]})
-        data2 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [3, 1, 4, 2, 5]})
 
-        # Create different charts using Altair
-        chart1 = alt.Chart(data1).mark_line().encode(x='x', y='y')
-        chart2 = alt.Chart(data2).mark_bar().encode(x='x', y='y')
+        # Assuming your dataset is stored in a DataFrame called 'df'
+        variables = [
+            'Information Technology', 'Software', 'Mobile Apps', 'Internet',
+            'Artificial Intelligence (AI)', 'Internet of Things (IoT)', 'Web Development',
+            'Cloud', 'Automation', 'Big Data', 'Machine Learning', 'Robotics',
+            'Blockchain', 'Augmented Reality (Ar)', 'Virtual Reality (VR)', 'Smart Home',
+            'Clean Energy', 'Sensor', 'Nanotechnology', 'Developer Apis'
+        ]
 
-        # Define the options for the selectbox
-        options = ['Chart 1', 'Chart 2']
+        categories = [
+            'category_0', 'category_1', 'category_2', 'category_3',
+            'category_4', 'category_5', 'category_6', 'category_7',
+            'category_8'
+        ]
 
-        # Get the user's selection
-        selected_option = st.selectbox('Select a chart', options)
+        average_mean_revenues = []
 
-        # Display the selected chart
-        if selected_option == 'Chart 1':
-            st.altair_chart(chart1, use_container_width=True)
-        else:
-            st.altair_chart(chart2, use_container_width=True)
+        # Loop through each variable
+        for variable in variables:
+            # Select rows where the variable is present in any of the category columns
+            variable_companies = data[data[categories].apply(lambda x: variable in x.values, axis=1)]
+
+            # Calculate the average mean revenue for the variable
+            average_mean_revenue = variable_companies['revenue_c'].mean()
+            average_mean_revenues.append((variable, average_mean_revenue))
+
+        # Print the results
+        for variable, average_mean_revenue in average_mean_revenues:
+            print(f"Average mean revenue of companies containing '{variable}': {average_mean_revenue}")
+
+        # Extract the categories and average revenues for plotting
+        categories = [x[0] for x in average_mean_revenues]
+        average_revenue = [x[1] for x in average_mean_revenues]
+
+        # Create the plot
+        fig, ax = plt.subplots(figsize=(10, 6))  # Adjust the figure size as needed
+        ax.bar(categories, average_revenue)
+
+        # Customize the plot
+        ax.set_title('Average Mean Revenue by Industry Category')
+        ax.set_xlabel('Industry Category')
+        ax.set_ylabel('Average Mean Revenue')
+        ax.set_xticklabels(categories, rotation=90)  # Rotate x-axis labels for better readability
+
+        # Display the plot in Streamlit
+        st.pyplot(fig)
+
         
 #         x_column = 'total_funding_c'
 
