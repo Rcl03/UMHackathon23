@@ -87,9 +87,9 @@ def run_website():
             industry_categories = [x[0] for x in average_mean_revenues]
             mean_revenues = [x[1] for x in average_mean_revenues]
                 
-            data1 = pd.DataFrame({'industry_categories': industry_categories, 'Mean Revenue': mean_revenues})
+            data2 = pd.DataFrame({'industry_categories': industry_categories, 'Mean Revenue': mean_revenues})
 
-            fig = px.bar(data1, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
+            fig = px.bar(data2, x='Variable', y='Mean Revenue', title='Average Mean Revenue by Variable')
 
         
         # Create a Streamlit app
