@@ -636,6 +636,8 @@ def run_website():
             filtered_data = filter_data(total_fund_min, total_fund_max)
             bar_chart = generate_bar_chart(filtered_data)
             st.altair_chart(bar_chart, use_container_width=True)
+            
+        st.markdown("<h1 style='font-size: 28px;'>Employee Growth vs EBIT Comparison </h1>", unsafe_allow_html=True)
         
         # Create a search bar for company selection
         selected_companies = st.multiselect('Select companies', data['name_c'])
@@ -885,7 +887,7 @@ def run_website():
 
                     # Create layout
                     layout1 = go.Layout(
-                        title='"Total Funding","Revenue","EBIT',
+                        title='Total Funding, Revenue, EBIT',
                         xaxis=dict(title='Features'),
                         yaxis=dict(title='Amount')
                     )
@@ -904,7 +906,7 @@ def run_website():
 
                     # Create layout
                     layout2 = go.Layout(
-                        title='"Revenue Growth","Employee Growth(6m)","Employee Growth (12m)',
+                        title='Revenue Growth, Employee Growth(6m), Employee Growth (12m)',
                         xaxis=dict(title='Features'),
                         yaxis=dict(title='Amount')
                     )
