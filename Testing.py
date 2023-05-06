@@ -622,7 +622,7 @@ def run_website():
         columns = ["employee_growth_6(%)", "revenue_growth(%)"]
 
         # Create the plot using Plotly Express
-        fig = px.scatter(data, x="employee_growth(%)", y="revenue_growth(%)", hover_name="company_name")
+        fig = px.scatter(data, x="employee_growth_6(%)", y="revenue_growth(%)", hover_name="company_name")
 
         # Set the title of the chart
         fig.update_layout(title="Employee Growth vs Revenue Growth")
