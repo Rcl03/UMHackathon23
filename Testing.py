@@ -15,7 +15,7 @@ st.set_page_config(page_title="Venture Capital")
 
 def run_website():
     with st.sidebar:
-        selected = option_menu('Venture Capital Analysis Website',
+        selected = option_menu('VentureWise',
                             
                             ['Analytics Dashboard',
                              'Categorical ranking',
