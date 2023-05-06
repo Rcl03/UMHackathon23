@@ -25,7 +25,7 @@ def run_website():
         
 
         # Define the options for the selectbox
-        options = ['Overall', 'Technology']
+        options = ['Overall', 'Technology','Finance']
 
         # Get the user's selection
         selected_option = st.selectbox('Select a chart', options)
@@ -106,7 +106,7 @@ def run_website():
                     'Transaction Processing', 'Micro Lending'
                 ]
 
-                categories = [
+               categories = [
                     'category_0', 'category_1', 'category_2', 'category_3',
                     'category_4', 'category_5', 'category_6', 'category_7',
                     'category_8' ]
