@@ -44,14 +44,13 @@ def run_website():
                 'Artificial Intelligence (AI)', 'Internet of Things (IoT)', 'Web Development',
                 'Cloud', 'Automation', 'Big Data', 'Machine Learning', 'Robotics',
                 'Blockchain', 'Augmented Reality (Ar)', 'Virtual Reality (VR)', 'Smart Home',
-                'Clean Energy', 'Sensor', 'Nanotechnology', 'Developer Apis'
-            ]
+                'Clean Energy', 'Sensor', 'Nanotechnology', 'Developer Apis' ]
 
             categories = [
                 'category_0', 'category_1', 'category_2', 'category_3',
                 'category_4', 'category_5', 'category_6', 'category_7',
-                'category_8'
-            ]
+                'category_8' ]
+           
 
             average_mean_revenues = []
 
