@@ -98,9 +98,8 @@ def run_website():
             # Display the graph in Streamlit
             st.plotly_chart(fig)
             
-         if selected_option == 'Finance':
-            
-                variables = [
+        if selected_option == 'Finance':
+               variables = [
                     'Financial Services', 'Fintech', 'Payments', 'Insurance',
                     'Investment', 'Accounting', 'Lending', 'Personal Finance',
                     'Cryptocurrency', 'Invoice Trading', 'Wealth Management',
@@ -137,6 +136,8 @@ def run_website():
                 # Display the graph in Streamlit
                 st.plotly_chart(fig)
 
+            
+             
             
         else:
             st.title('default')
