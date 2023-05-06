@@ -19,7 +19,6 @@ def run_website():
                             ['Analytics Dashboard',
                              'Categorical ranking',
                             'Search',
-                            'Company Profile',
                             'Prediction'],
                             default_index=0)
         
