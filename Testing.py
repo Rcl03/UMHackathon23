@@ -74,7 +74,7 @@ def run_website():
                        'Human Resources', 'Real Estate and Property', 'Food and Beverage', 'Others']
 
             # Calculate the average revenue growth rate for each industry category
-            average_revenue_growth_industry = {}
+            average_revenue_growth_industry = []
 
             for category in industry_categories:
                 category_df = data[data[category] == 1]
