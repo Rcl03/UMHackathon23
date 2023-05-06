@@ -23,6 +23,10 @@ def run_website():
         
     if(selected == 'Analytics Dashboard'):
         
+        st.title('Analytics Dasgboard')
+        st.title('Revenue Growth by Company Category')
+        st.write('Select a category from the dropdown menu to filter the data.')
+        
 
         # Define the options for the selectbox
         options = ['Overall', 'Technology','Finance','Health and Wellness','Retail and E-commerce','Education','Media and Entertainment','Travel and Hospitality','Marketing and Advertising','Human Resources','Real Estate and Property','Food and Beverage']
@@ -476,39 +480,21 @@ def run_website():
 
             # Display the graph in Streamlit
             st.plotly_chart(fig)
-
-                
-#         else:
-#             st.title('default')
-
-        # Create a Streamlit app
-        st.title('Total funding vs Total revenue')
-       
-        # Assuming your dataset is stored in a DataFrame called 'df'
-
-
-
-        
+                 
+                 
+   
+        # Revenye vs Total Funding graph
+        st.title('Revenue vs Total Funding')
         x_column = 'total_funding_c'
-
-        # Specify the column name for y-axis values
         y_column = 'revenue_c'
 
-        # Filter the data to exclude null or zero values
         filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[y_column].notnull()) & (data[y_column] != 0)]
 
-
-
-        # Extract the x and y values from the filtered data
         x = filtered_data[x_column]
         y = filtered_data[y_column]
 
         filtered_data = data[(data[x_column].notnull()) & (data[x_column] != 0) & (data[x_column] != 1) & (data[y_column].notnull()) & (data[y_column] != 0) & (data[y_column] != 1)]
 
-        # Create a Streamlit app
-        st.title('Visualization')
-
-        # Create the line chart using Plotly
         sc = px.scatter(filtered_data, x=x_column, y=y_column)
 
         # Set the chart title and axis labels
@@ -524,7 +510,7 @@ def run_website():
         # Show plot
         st.plotly_chart(fig)
         
-        # Create button to filter data
+        # Employee Growth vs revenue growth graph
         button = st.button('Employee Growth (12 months)')
         
         # Create a container to hold the button and the plot
@@ -620,41 +606,41 @@ def run_website():
 
 
 
-        # Create a list of categories for the dropdown menu
-        categories = ['All'] + list(data['category_0'].unique())
+#         # Create a list of categories for the dropdown menu
+#         categories = ['All'] + list(data['category_0'].unique())
 
-        # Define function to filter the data by category
-        def filter_data(category):
-            if category == 'All':
-                return data
-            else:
-                return data[data['category_0'] == category]
+#         # Define function to filter the data by category
+#         def filter_data(category):
+#             if category == 'All':
+#                 return data
+#             else:
+#                 return data[data['category_0'] == category]
 
-        # Define function to create the chart
-        def create_chart(df):
-            chart = alt.Chart(df).mark_bar().encode(
-                x='category_0',
-                y='revenue_growth(%)',
-                tooltip=['category_0', 'revenue_growth(%)']
-            ).properties(
-                width=700,
-                height=400
-            )
-            return chart
+#         # Define function to create the chart
+#         def create_chart(df):
+#             chart = alt.Chart(df).mark_bar().encode(
+#                 x='category_0',
+#                 y='revenue_growth(%)',
+#                 tooltip=['category_0', 'revenue_growth(%)']
+#             ).properties(
+#                 width=700,
+#                 height=400
+#             )
+#             return chart
 
-#         # Create Streamlit app
-#         st.title('Revenue Growth by Company Category')
-#         st.write('Select a category from the dropdown menu to filter the data.')
+# #         # Create Streamlit app
+# #         st.title('Revenue Growth by Company Category')
+# #         st.write('Select a category from the dropdown menu to filter the data.')
 
-        # Add dropdown menu to select category
-        category = st.selectbox('Select a category:', categories)
+#         # Add dropdown menu to select category
+#         category = st.selectbox('Select a category:', categories)
 
-        # Filter data by selected category
-        filtered_data = filter_data(category)
+#         # Filter data by selected category
+#         filtered_data = filter_data(category)
 
-        # Create chart with filtered data
-        chart = create_chart(filtered_data)
-        st.altair_chart(chart, use_container_width=True)
+#         # Create chart with filtered data
+#         chart = create_chart(filtered_data)
+#         st.altair_chart(chart, use_container_width=True)
 
 
 
