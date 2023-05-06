@@ -45,7 +45,7 @@ def run_website():
 
             for category in industry_categories:
                 category_df = data[data[category] == 1]
-                average_growth = category_df['revenue_growth(%)'].mean()
+                average_growth = category_df['revenue_c'].mean()
                 average_revenue_growth[category] = average_growth
 
             # Create a Bar object
@@ -568,41 +568,31 @@ def run_website():
 
         # Display the plot
         st.plotly_chart(fig)
-        
 
+#         scatter_plot = alt.Chart(data).mark_circle().encode(
+#             x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
+#             y=alt.Y('last_valuation_c', title='Last Valuation'),
+#             color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
+#         )
 
+#         # Create button to filter data
+#         button_clicked = st.button('Filter data')
 
+#         # Create a container to hold the button and the plot
+#         container = st.container()
 
+#         # If button is clicked, filter data and show the filtered scatter plot
+#         if button_clicked:
+#             data_filtered = data[data["num_funding_rounds"] > 5]
+#             filtered_scatter_plot = alt.Chart(data_filtered).mark_circle().encode(
+#                 x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
+#                 y=alt.Y('last_valuation_c', title='Last Valuation'),
+#                 color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
+#             )
+#             container.altair_chart(filtered_scatter_plot, use_container_width=True)
 
-
-
-            
-    
-
-        scatter_plot = alt.Chart(data).mark_circle().encode(
-            x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
-            y=alt.Y('last_valuation_c', title='Last Valuation'),
-            color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
-        )
-
-        # Create button to filter data
-        button_clicked = st.button('Filter data')
-
-        # Create a container to hold the button and the plot
-        container = st.container()
-
-        # If button is clicked, filter data and show the filtered scatter plot
-        if button_clicked:
-            data_filtered = data[data["num_funding_rounds"] > 5]
-            filtered_scatter_plot = alt.Chart(data_filtered).mark_circle().encode(
-                x=alt.X('revenue_growth(%)', title='Revenue Growth Rate'),
-                y=alt.Y('last_valuation_c', title='Last Valuation'),
-                color=alt.Color('num_funding_rounds', title='Number of Funding Rounds')
-            )
-            container.altair_chart(filtered_scatter_plot, use_container_width=True)
-
-        # Show the initial scatter plot
-        container.altair_chart(scatter_plot, use_container_width=True)
+#         # Show the initial scatter plot
+#         container.altair_chart(scatter_plot, use_container_width=True)
 
         # Create a function to filter the data based on the selected range of total funding
 
