@@ -99,6 +99,7 @@ def run_website():
             st.plotly_chart(fig)
             
         else:
+            st.title('default')
 
         # Create a Streamlit app
         st.title('Total funding vs Total revenue')
