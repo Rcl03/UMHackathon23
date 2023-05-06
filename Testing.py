@@ -54,9 +54,9 @@ def run_website():
 
         st.write("To be coded")
 
-        fig = go.Figure(data=go.Scatter(x=data["incorporated_date_c"], y=data["total_funding_c"], mode='markers'))
+        fig = go.Figure(data=go.Scatter(x=data["incorporated_date_c"], y=data["revenue_c"], mode='markers'))
         # Add axis labels and title
-        fig.update_layout(xaxis_title="Incorporation Date", yaxis_title="Total Funding Amount", title="Company Funding")
+        fig.update_layout(xaxis_title="Incorporation Date", yaxis_title="Total Revenue", title="Revenue over time")
 
         # Show plot
         st.plotly_chart(fig)
