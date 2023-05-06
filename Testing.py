@@ -568,7 +568,7 @@ def run_website():
 
         # Display the plot
         st.plotly_chart(fig)
-        range. The title of the chart is also updated to include the selected year range.
+        
 
 
 
