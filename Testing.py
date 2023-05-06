@@ -382,7 +382,7 @@ def run_website():
                     yaxis=dict(title='Amount')
                 )
                 
-                fig1 = go.Figure(data=[trace2], layout=layout2)
+                fig2 = go.Figure(data=[trace2], layout=layout2)
 
                 # Display the figure
                 st.plotly_chart(fig2)
