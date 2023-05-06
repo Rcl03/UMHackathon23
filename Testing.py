@@ -15,7 +15,7 @@ def run_website():
                             ['Analytics Dashboard',
                              'Categorical ranking',
                             'Predicting success probability',
-                            'Implement own dataset'],
+                            'Company Profile'],
                             default_index=0)
         
         
