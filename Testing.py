@@ -845,15 +845,17 @@ def run_website():
                     st.write("Top 10")
                     st.write(top_10)
 
-    if(selected == 'Search'):
-        
+    if (selected == 'Search'):
         st.title('Search')
 
         # Create a radio button for selecting the search method
         search_method = st.radio('Select Search Method', ('Search by Company', 'Search by Category'))
 
         if search_method == 'Search by Company':
-            
+            # Display content for searching by company
+            st.header('Search by Company')
+            # Your code for searching by company goes here
+
         elif search_method == 'Search by Category':
             # Display content for searching by category
             st.header('Search by Category')
