@@ -573,16 +573,16 @@ def run_website():
 
 
         
-        columns = ["employee_growth_6(%)", "revenue_growth(%)"]
+#         columns = ["employee_growth_6(%)", "revenue_growth(%)"]
 
-        # Create the plot using Plotly Express
-        fig = px.scatter(data, x="employee_growth_6(%)", y="revenue_growth(%)", hover_name="name_c")
+#         # Create the plot using Plotly Express
+#         fig = px.scatter(data, x="employee_growth_6(%)", y="revenue_growth(%)", hover_name="name_c")
 
-        # Set the title of the chart
-        fig.update_layout(title="Employee Growth vs Revenue Growth")
+#         # Set the title of the chart
+#         fig.update_layout(title="Employee Growth vs Revenue Growth")
 
-        # Display the plot
-        st.plotly_chart(fig)
+#         # Display the plot
+#         st.plotly_chart(fig)
 
         def filter_data(min_value, max_value):
             filtered_data = data[(data["total_funding_c"] >= min_value) & (data["total_funding_c"] <= max_value)]
