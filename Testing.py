@@ -485,7 +485,7 @@ def run_website():
             # Display the graph in Streamlit
             st.plotly_chart(fig)
                  
-                 
+        st.title('Feature Correlation Visualisation')
    
         # Revenye vs Total Funding graph
         x_column = 'total_funding_c'
@@ -594,7 +594,7 @@ def run_website():
                 y="revenue_growth(%)",
                 tooltip=["total_funding_c", "revenue_growth(%)"]
             ).properties(
-                title="Employee Growth and Revenue Growth",
+                title="Total fundinf vs Revenue growth",
                 width=600,
                 height=400
             )
