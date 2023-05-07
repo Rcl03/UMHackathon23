@@ -27,6 +27,7 @@ def run_website():
     if(selected == 'Analytics Dashboard'):
         
         st.title('Analytics Dashboard')
+        st.write('---')
         st.title('Revenue Growth by Company Category')
         st.write('Select a category from the dropdown menu to filter the data.')
         
