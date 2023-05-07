@@ -488,7 +488,6 @@ def run_website():
                  
    
         # Revenye vs Total Funding graph
-        st.title('Revenue vs Total Funding')
         x_column = 'total_funding_c'
         y_column = 'revenue_c'
 
