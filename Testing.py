@@ -36,7 +36,7 @@ def run_website():
         options = ['Overall', 'Technology','Finance','Health and Wellness','Retail and E-commerce','Education','Media and Entertainment','Travel and Hospitality','Marketing and Advertising','Human Resources','Real Estate and Property','Food and Beverage']
 
         # Get the user's selection
-        selected_option = st.selectbox(options)
+        selected_option = st.selectbox('',options)
 
         # Display the selected chart
         if selected_option == 'Overall':
