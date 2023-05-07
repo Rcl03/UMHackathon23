@@ -36,7 +36,7 @@ def run_website():
         options = ['Overall', 'Technology','Finance','Health and Wellness','Retail and E-commerce','Education','Media and Entertainment','Travel and Hospitality','Marketing and Advertising','Human Resources','Real Estate and Property','Food and Beverage']
 
         # Get the user's selection
-        selected_option = st.selectbox('Select a chart', options)
+        selected_option = st.selectbox(options)
 
         # Display the selected chart
         if selected_option == 'Overall':
@@ -594,7 +594,7 @@ def run_website():
                 y="revenue_growth(%)",
                 tooltip=["total_funding_c", "revenue_growth(%)"]
             ).properties(
-                title="Total fundinf vs Revenue growth",
+                title="Total funding vs Revenue growth",
                 width=600,
                 height=400
             )
