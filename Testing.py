@@ -513,30 +513,6 @@ def run_website():
         # Show plot
         st.plotly_chart(fig)
         
-        # Employee Growth vs revenue growth graph
-        button = st.button('Employee Growth (12 months)')
-        
-        # Create a container to hold the button and the plot
-        container = st.container()
-
-        fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_6(%)"], mode='markers'))
-        # Add axis labels and title
-        fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_6(%)", title="Revenue Growth vs Employee Growth (6 months)")
-
-        # Show plot
-        st.plotly_chart(fig)
-
-        # If button is clicked, filter data and show the filtered scatter plot
-        if button:
-            fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_12(%)"], mode='markers'))
-            
-            # Add axis labels and title
-            fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_12(%)", title="Revenue Growth vs Employee Growth (12 months)")
-
-            # Show plot
-            st.plotly_chart(fig)
-
-
         # Create a slider to select the year
         year_ranges = {
             "Before 1990": (None, 1989),
@@ -571,6 +547,29 @@ def run_website():
 
         # Display the plot
         st.plotly_chart(fig)
+        # Employee Growth vs revenue growth graph
+        button = st.button('Employee Growth (12 months)')
+        
+        # Create a container to hold the button and the plot
+        container = st.container()
+
+        fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_6(%)"], mode='markers'))
+        # Add axis labels and title
+        fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_6(%)", title="Revenue Growth vs Employee Growth (6 months)")
+
+        # Show plot
+        st.plotly_chart(fig)
+
+        # If button is clicked, filter data and show the filtered scatter plot
+        if button:
+            fig = go.Figure(data=go.Scatter(x=data["revenue_growth(%)"], y=data["employee_growth_12(%)"], mode='markers'))
+            
+            # Add axis labels and title
+            fig.update_layout(xaxis_title="Revenue_growth(%)", yaxis_title="Employee_growth_12(%)", title="Revenue Growth vs Employee Growth (12 months)")
+
+            # Show plot
+            st.plotly_chart(fig)
+
 
 
         
